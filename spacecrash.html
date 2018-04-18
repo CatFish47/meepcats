@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Space Crash</title>
+        <link href = "spacecrash.css" rel = "stylesheet">
+        <style>
+            body, canvas {
+                overflow:hidden;
+                margin:0;
+                padding:0;
+            }
+
+            #space-crash {
+                background-image: url("images/space.jpg");
+
+                height: 100%;
+
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+        </style>
+
+        <link rel="icon" href="images/ship.png">
+    </head>
+    <body>
+      <div id="canvas-container">
+        <canvas id='space-crash'></canvas>
+      </div>
+        <script src='spacecrash.min.js'></script>
+    </body>
+</html>
