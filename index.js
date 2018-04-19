@@ -11,8 +11,6 @@ var path = require('path');
 
 var mongoose = require('mongoose');
 
-var usermodel = require('./user.js').getModel();
-
 var Io = require('socket.io');
 
 var dbAddress = process.env.MONGODB_URI || 'mongodb://127.0.0.1/spacecrash';
@@ -28,7 +26,7 @@ var io = Io(server);
 /* Defines what port to use to listen to web requests */
 var port =  process.env.PORT
 						? parseInt(process.env.PORT):
-						8080;
+						1182;
 
 function addSockets() {
 	io.on('connection', (socket) => {
@@ -53,6 +51,56 @@ function startServer() {
 		console.log(req.body);
 		res.send('OK');
 	})
+
+  app.get('/spacecrash.js', (req, res, next) => {
+		var filePath = path.join(__dirname, './spacecrash.js')
+		res.sendFile(filePath);
+	});
+
+	app.get('/spacecrash.css', (req, res, next) => {
+		var filePath = path.join(__dirname, './spacecrash.css')
+		res.sendFile(filePath);
+	})
+
+  app.get('/images/space.jpg', (req, res, next) => {
+    var filePath = path.join(__dirname, './images/space.jpg')
+    res.sendFile(filePath);
+  })
+
+  app.get('/images/ship.png', (req, res, next) => {
+    var filePath = path.join(__dirname, './images/ship.png')
+    res.sendFile(filePath);
+  })
+
+  app.get('/images/meteor.png', (req, res, next) => {
+    var filePath = path.join(__dirname, './images/meteor.png')
+    res.sendFile(filePath);
+  })
+
+  app.get('/images/explosion.png', (req, res, next) => {
+    var filePath = path.join(__dirname, './images/explosion.png')
+    res.sendFile(filePath);
+  })
+
+  app.get('/images/fire.png', (req, res, next) => {
+    var filePath = path.join(__dirname, './images/fire.png')
+    res.sendFile(filePath);
+  })
+
+  app.get('/images/friendlyShip.png', (req, res, next) => {
+    var filePath = path.join(__dirname, './images/friendlyShip.png')
+    res.sendFile(filePath);
+  })
+
+  app.get('/images/enemyShip.png', (req, res, next) => {
+    var filePath = path.join(__dirname, './images/enemyShip.png')
+    res.sendFile(filePath);
+  })
+
+  app.get('/images/selectedShip.png', (req, res, next) => {
+    var filePath = path.join(__dirname, './images/selectedShip.png')
+    res.sendFile(filePath);
+  })
 
 	/* Defines what function to all when the server recieves any request from http://localhost:8080 */
 	server.on('listening', () => {
