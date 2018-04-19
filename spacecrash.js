@@ -318,8 +318,9 @@ function init() {
 function update() {
   for (var i = 0; i < count; i++) {
     for (var j = 0; j < count; j++) {
-      if (f[i].speed > e[i].speed) {
+      if (f[i].speed > e[j].speed) {
         f[i].shipCollide(e[j]);
+      } else if (e[j].speed > f[i].speed) {
         e[i].shipCollide(f[j]);
       }
     }
@@ -358,7 +359,7 @@ function animateFriendlyShips() {
     f[i].x += -f[i].speed * Math.cos(f[i].angle - Math.PI / 2);
     f[i].y += -f[i].speed * Math.sin(f[i].angle - Math.PI / 2);
 
-    if (f[i].speed > 0) {
+    if (f[i].speed - 0.2 > 0) {
       f[i].moving = true;
       f[i].speed -= 0.2;
     } else {
@@ -391,10 +392,15 @@ function animateEnemyShips() {
     if (e[i].dead) {
       e[i].image.src = "images/explosion.png";
     }
+    e[i].x += -e[i].speed * Math.cos(e[i].angle - Math.PI / 2);
+    e[i].y += -e[i].speed * Math.sin(e[i].angle - Math.PI / 2);
 
-    if (e[i].speed > 0) {
+    if (e[i].speed - 0.2 > 0) {
       e[i].moving = true;
+      e[i].speed -= 0.2;
     } else {
+      e[i].moving = false;
+      gone = true;
       e[i].speed = 0;
     }
   }
@@ -408,6 +414,10 @@ function drawEnemyShips() {
     context.rotate(e[i].angle);
     context.drawImage(e[i].image, -e[i].size / 2, -e[i].size / 2,
       e[i].size, e[i].size);
+    if (e[i].moving) {
+      context.drawImage(fire, -e[i].size / 2, -e[i].size / 2 - e[i].size / 6,
+        e[i].size, e[i].size + e[i].size / 8 * 3)
+    }
     context.restore();
     context.closePath();
   }
@@ -418,7 +428,6 @@ function drawObstacles() {
     context.beginPath();
     context.drawImage(o[i].image, o[i].x - o[i].size / 2,
       o[i].y - o[i].size / 2, o[i].size, o[i].size);
-    // Hitbox equation: (x^2 - nX) + (y^2 - nY) = (nSize / 2)^2
     context.closePath();
   }
 }
@@ -481,12 +490,6 @@ init();
 /* TODO List:
 
 - Implement circle-edge collisions in planet collisions
-- Add AI
-  1. Implement the turn based system
-  2. Create function(s) for AI that activate turing turn % 2 == 1
-  3. Make it so that if the first ship is not dead, set the angle towards the
-  closest enemy and launch at specified speeds, otherwise move onto the next
-  ship
 - Implement a win condition
 - Create a game over screen
 - Make it so that the explosions fade over time after the collisions
