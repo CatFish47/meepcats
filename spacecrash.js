@@ -235,6 +235,9 @@ var context = $canvas.getContext("2d");
 $canvas.width = 1200;
 $canvas.height = 700;
 
+// Socket Variables
+var socket = io();
+
 // Create class variables
 var f = [];
 var e = [];
@@ -355,6 +358,7 @@ function animateFriendlyShips() {
   for (var i = 0; i < count; i++) {
     if (f[i].dead) {
       f[i].image.src = "images/explosion.png";
+      f[i].speed = 0;
     }
     f[i].x += -f[i].speed * Math.cos(f[i].angle - Math.PI / 2);
     f[i].y += -f[i].speed * Math.sin(f[i].angle - Math.PI / 2);
@@ -391,6 +395,7 @@ function animateEnemyShips() {
   for (var i = 0; i < count; i++) {
     if (e[i].dead) {
       e[i].image.src = "images/explosion.png";
+      e[i].speed = 0;
     }
     e[i].x += -e[i].speed * Math.cos(e[i].angle - Math.PI / 2);
     e[i].y += -e[i].speed * Math.sin(e[i].angle - Math.PI / 2);

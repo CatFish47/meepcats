@@ -41,6 +41,17 @@ function startServer() {
 	app.use(bodyParser.json({ limit: '16mb' }));
 	app.use(express.static(path.join(__dirname, 'public')));
 
+	app.get('/', (req, res, next) => {
+		var filePath = path.join(__dirname, './index.html');
+
+		res.sendFile(filePath);
+	})
+
+	app.post('/', (req, res, next) => {
+		console.log(req.body);
+		res.send('OK');
+	})
+
   app.get('/spacecrash', (req, res, next) => {
 		var filePath = path.join(__dirname, './spacecrash.html');
 
@@ -102,7 +113,7 @@ function startServer() {
     res.sendFile(filePath);
   })
 
-	
+
 
 	/* Defines what function to all when the server recieves any request from http://localhost:8080 */
 	server.on('listening', () => {
