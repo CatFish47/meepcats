@@ -220,6 +220,8 @@ class obstacle {
 
 // Game variables
 var gameOver = false;
+var fWin = false;
+var eWin = false;
 var mouseX = 0;
 var mouseY = 0;
 var down = false;
@@ -331,6 +333,14 @@ function update() {
     for (var j = 0; j < o.length; j++) {
       f[i].obstacleCollide(o[j]);
     }
+
+    if (checkGameOver() == 0) {
+      fWin = true;
+      gameOver = true;
+    } else if (checkGameOver() == 1) {
+      eWin = true;
+      gameOver = true;
+    }
   }
 
   animateFriendlyShips();
@@ -358,6 +368,11 @@ function animateFriendlyShips() {
   for (var i = 0; i < count; i++) {
     if (f[i].dead) {
       f[i].image.src = "images/explosion.png";
+      if (f[i].size > 0) {
+        f[i].size -= 0.5;
+      } else {
+        f[i].size = 0;
+      }
       f[i].speed = 0;
     }
     f[i].x += -f[i].speed * Math.cos(f[i].angle - Math.PI / 2);
@@ -395,6 +410,11 @@ function animateEnemyShips() {
   for (var i = 0; i < count; i++) {
     if (e[i].dead) {
       e[i].image.src = "images/explosion.png";
+      if (e[i].size > 0) {
+        e[i].size -= 0.5;
+      } else {
+        e[i].size = 0;
+      }
       e[i].speed = 0;
     }
     e[i].x += -e[i].speed * Math.cos(e[i].angle - Math.PI / 2);
@@ -437,7 +457,38 @@ function drawObstacles() {
   }
 }
 
-function gameOverScreen() {}
+function checkGameOver() {
+  fCounter = 0;
+  eCounter = 0;
+
+  for (var i = 0; i < count; i++) {
+    if (e[i].dead) {
+      fCounter += 1;
+    }
+
+    if (f[i].dead) {
+      eCounter += 1;
+    }
+  }
+
+  if (fCounter == count) {
+    return 0;
+  }
+
+  if (eCounter == count) {
+    return 1;
+  }
+
+  return 2;
+}
+
+function gameOverScreen() {
+  if (fWin) {
+    console.alert("Team F has won!");
+  } else {
+    console.alert("Team E has won!");
+  }
+}
 
 function drawShooting(num) {
   if (!f[num].dead) {
