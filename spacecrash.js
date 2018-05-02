@@ -673,4 +673,17 @@ init();
   - Moving Objects
   - Campaign
 
+
+
+- Start Screen
+  - Have div that has a start screen
+    - Position it with position: fixed
+    - Have a button that would start the game
+- Socket.io
+  - 
+- Lobbying
+  - Whenever io.on('connection') is triggered
+  - Have an array of length 2, whenever the socket is triggered, add a stuff to
+    the array
+
 */
