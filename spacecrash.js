@@ -203,8 +203,40 @@ class eShip {
     }
   }
 
-  static obstacleCollide(obstacle) {
+  obstacleCollide(obstacle) {
+    var eVertices = [
+      {x: (- (this.size / 2) * Math.sin(this.angle)) + this.x,
+        y: ((this.size / 2) * Math.cos(this.angle)) + this.y},
+      {x: ((this.size / Math.sqrt(3)) * Math.cos(this.angle)
+        - (- this.size / 2) * Math.sin(this.angle)) + this.x,
+        y: ((- this.size / 2) * Math.cos(this.angle)
+        + (this.size / Math.sqrt(3)) * (Math.sin(this.angle))) + this.y},
+      {x: ((- this.size / Math.sqrt(3)) * Math.cos(this.angle)
+        - (- this.size / 2) * Math.sin(this.angle)) + this.x,
+        y: ((- this.size / 2) * Math.cos(this.angle)
+        + (- this.size / Math.sqrt(3)) * (Math.sin(this.angle))) + this.y}];
 
+        for (var i = 0; i < 3; i++) {
+
+          if (Math.pow(eVertices[i].x - obstacle.x, 2) +
+          Math.pow(eVertices[i].y - obstacle.y, 2) <
+          Math.pow(obstacle.size / 2, 2)) {
+            this.dead = true;
+            this.speed = 0;
+          } else {
+            // Implement Circle-Edge collsions later with the following link:
+            // http://www.phatcode.net/articles.php?id=459
+          }
+        }
+
+    for (var i = 0; i < 3; i++) {
+        if (eVertices[i].x > $canvas.width || eVertices[i].x < 0
+          || eVertices[i].y < 0 || eVertices[i].y > $canvas.height) {
+            this.dead = true;
+            this.speed = 0;
+        }
+
+    }
   }
 }
 
@@ -219,6 +251,7 @@ class obstacle {
 }
 
 // Game variables
+var side = "E"; // If you joined the lobby second, you will be E.
 var gameOver = false;
 var fWin = false;
 var eWin = false;
@@ -259,22 +292,33 @@ for (var i = 0; i < count; i++) {
 }
 
 // Mouse Event Listeners
-document.addEventListener("mousedown", function(e) { down = true; });
-document.addEventListener("mouseup", function(e) {
-  for (var i = 0; i < count; i++) {
-    if (f[i].selected == true) {
-      f[i].speed = dist({x: f[i].x, y: f[i].y}, {x: mouseX, y: mouseY}) / 20;
+document.addEventListener("mousedown", function(evt) { down = true; });
+document.addEventListener("mouseup", function(evt) {
+  if (side == "F") {
+    for (var i = 0; i < count; i++) {
+      if (f[i].selected == true) {
+        f[i].speed = dist({x: f[i].x, y: f[i].y}, {x: mouseX, y: mouseY}) / 20;
+      }
+      down = false;
+      f[i].selected = false;
     }
-    down = false;
-    f[i].selected = false;
+  } else if (side == "E") {
+    for (var i = 0; i < count; i++) {
+      if (e[i].selected == true) {
+        e[i].speed = dist({x: e[i].x, y: e[i].y}, {x: mouseX, y: mouseY}) / 20;
+      }
+      down = false;
+      e[i].selected = false;
+    }
   }
 
   shootShip = -1;
 });
-document.addEventListener("mousemove", function(e) {
+document.addEventListener("mousemove", function(evt) {
   var rect = $canvas.getBoundingClientRect();
-  mouseX = e.clientX - rect.left;
-  mouseY = e.clientY - rect.top;
+  mouseX = evt.clientX - rect.left;
+  mouseY = evt.clientY - rect.top;
+
   if (mouseX < 0) {
     mouseX = 0;
   }
@@ -289,28 +333,56 @@ document.addEventListener("mousemove", function(e) {
   }
 
   if (shootShip < 0) {
-    for (var i = 0; i < count; i++) {
-      if (Math.pow(mouseX - f[i].x, 2) + Math.pow(mouseY - f[i].y, 2)
-      < Math.pow(f[i].size / 2, 2)) {
-        f[i].image.src = "images/selectedShip.png";
+    if (side == "F") {
+      for (var i = 0; i < count; i++) {
+        if (Math.pow(mouseX - f[i].x, 2) + Math.pow(mouseY - f[i].y, 2)
+        < Math.pow(f[i].size / 2, 2)) {
+          f[i].image.src = "images/selectedShip.png";
 
-        if (down && !f[i].moving && !f[i].dead) {
-          f[i].selected = true;
+          if (down && !f[i].moving && !f[i].dead) {
+            f[i].selected = true;
+          }
+        } else {
+          f[i].image.src = "images/friendlyShip.png"
         }
-      } else {
-        f[i].image.src = "images/friendlyShip.png"
+      }
+    } else if (side == "E") {
+      for (var i = 0; i < count; i++) {
+        if (Math.pow(mouseX - e[i].x, 2) + Math.pow(mouseY - e[i].y, 2)
+        < Math.pow(e[i].size / 2, 2)) {
+          e[i].image.src = "images/selectedShip.png";
+
+          if (down && !e[i].moving && !e[i].dead) {
+            e[i].selected = true;
+          }
+        } else {
+          e[i].image.src = "images/enemyShip.png"
+        }
       }
     }
   } else {
-    if (Math.pow(mouseX - f[shootShip].x, 2) + Math.pow(mouseY - f[shootShip].y, 2)
-    < Math.pow(f[shootShip].size / 2, 2)) {
-      f[shootShip].image.src = "images/selectedShip.png";
+    if (side == "F") {
+      if (Math.pow(mouseX - f[shootShip].x, 2) + Math.pow(mouseY - f[shootShip].y, 2)
+      < Math.pow(f[shootShip].size / 2, 2)) {
+        f[shootShip].image.src = "images/selectedShip.png";
 
-      if (down && !f[shootShip].moving && !f[shootShip].dead) {
-        f[shootShip].selected = true;
+        if (down && !f[shootShip].moving && !f[shootShip].dead) {
+          f[shootShip].selected = true;
+        }
+      } else {
+        f[shootShip].image.src = "images/friendlyShip.png"
       }
-    } else {
-      f[shootShip].image.src = "images/friendlyShip.png"
+    } else if (side == "E") {
+      if (Math.pow(mouseX - e[shootShip].x, 2) + Math.pow(mouseY - e[shootShip].y, 2)
+      < Math.pow(e[shootShip].size / 2, 2)) {
+        e[shootShip].image.src = "images/selectedShip.png";
+
+        if (down && !e[shootShip].moving && !e[shootShip].dead) {
+          e[shootShip].selected = true;
+        }
+      } else {
+        e[shootShip].image.src = "images/enemyShip.png"
+      }
     }
   }
 });
@@ -332,6 +404,7 @@ function update() {
 
     for (var j = 0; j < o.length; j++) {
       f[i].obstacleCollide(o[j]);
+      e[i].obstacleCollide(o[j]);
     }
 
     if (checkGameOver() == 0) {
@@ -353,9 +426,13 @@ function draw() {
   drawEnemyShips();
   drawFriendlyShips();
 
+  console.log(shootShip);
+
   if (shootShip < 0) {
     for (var i = 0; i < count; i++) {
-      if (f[i].selected == true) {
+      if (f[i].selected == true && side == "F") {
+        shootShip = i;
+      } else if (e[i].selected == true && side == "E") {
         shootShip = i;
       }
     }
@@ -491,37 +568,72 @@ function gameOverScreen() {
 }
 
 function drawShooting(num) {
-  if (!f[num].dead) {
-    context.beginPath();
-    context.strokeStyle = "#fff";
-    context.moveTo(f[num].x, f[num].y);
-    context.lineTo(mouseX, mouseY);
-    context.stroke();
-    context.closePath();
+  if (side == "F") {
+    if (!f[num].dead) {
+      context.beginPath();
+      context.strokeStyle = "#fff";
+      context.moveTo(f[num].x, f[num].y);
+      context.lineTo(mouseX, mouseY);
+      context.stroke();
+      context.closePath();
 
-    var points = [
-      {x: f[num].x, y: f[num].y},
-      {x: f[num].x, y: f[num].y + 100},
-      {x: mouseX, y: mouseY}];
+      var points = [
+        {x: f[num].x, y: f[num].y},
+        {x: f[num].x, y: f[num].y + 100},
+        {x: mouseX, y: mouseY}];
 
-      a = dist(points[0], points[1]);
-      b = dist(points[0], points[2]);
-      c = dist(points[1], points[2]);
+        a = dist(points[0], points[1]);
+        b = dist(points[0], points[2]);
+        c = dist(points[1], points[2]);
 
-      if (mouseX < f[num].x) {
-        f[num].angle = Math.acos((a*a + b*b - c*c) / (2*a*b)) - Math.PI;
-      } else {
-        f[num].angle = -(Math.acos((a*a + b*b - c*c) / (2*a*b)) - Math.PI);
+        if (mouseX < f[num].x) {
+          f[num].angle = Math.acos((a*a + b*b - c*c) / (2*a*b)) - Math.PI;
+        } else {
+          f[num].angle = -(Math.acos((a*a + b*b - c*c) / (2*a*b)) - Math.PI);
+        }
+
+        if (f[num].angle < 0) {
+          f[num].angle = 2 * Math.PI + f[num].angle;
+        }
+
+        if (isNaN(f[num].angle)) {
+          f[num].angle = 0;
+        }
       }
+  } else if (side == "E") {
+    console.log("Crap is happening");
+    if (!e[num].dead) {
+      context.beginPath();
+      context.strokeStyle = "#fff";
+      context.moveTo(e[num].x, e[num].y);
+      context.lineTo(mouseX, mouseY);
+      context.stroke();
+      context.closePath();
 
-      if (f[num].angle < 0) {
-        f[num].angle = 2 * Math.PI + f[num].angle;
-      }
+      var points = [
+        {x: e[num].x, y: e[num].y},
+        {x: e[num].x, y: e[num].y + 100},
+        {x: mouseX, y: mouseY}];
 
-      if (isNaN(f[num].angle)) {
-        f[num].angle = 0;
+        a = dist(points[0], points[1]);
+        b = dist(points[0], points[2]);
+        c = dist(points[1], points[2]);
+
+        if (mouseX < e[num].x) {
+          e[num].angle = Math.acos((a*a + b*b - c*c) / (2*a*b)) - Math.PI;
+        } else {
+          e[num].angle = -(Math.acos((a*a + b*b - c*c) / (2*a*b)) - Math.PI);
+        }
+
+        if (e[num].angle < 0) {
+          e[num].angle = 2 * Math.PI + e[num].angle;
+        }
+
+        if (isNaN(e[num].angle)) {
+          e[num].angle = 0;
+        }
       }
-    }
+  }
 }
 
 function dist(p1, p2) {
