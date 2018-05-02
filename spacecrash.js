@@ -398,7 +398,7 @@ function update() {
       if (f[i].speed > e[j].speed) {
         f[i].shipCollide(e[j]);
       } else if (e[j].speed > f[i].speed) {
-        e[i].shipCollide(f[j]);
+        e[j].shipCollide(f[i]);
       }
     }
 
