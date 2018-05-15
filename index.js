@@ -13,6 +13,8 @@ var mongoose = require('mongoose');
 
 var Io = require('socket.io');
 
+var passport = require('passport');
+
 var dbAddress = process.env.MONGODB_URI || 'mongodb://127.0.0.1/spacecrash';
 
 /* Creates an express application */
@@ -59,6 +61,39 @@ function startServer() {
 	})
 
 	app.post('/spacecrash', (req, res, next) => {
+		console.log(req.body);
+		res.send('OK');
+	})
+
+	app.get('/login', (req, res, next) => {
+		var filePath = path.join(__dirname, './login.html');
+
+		res.sendFile(filePath);
+	})
+
+	app.post('/login', (req, res, next) => {
+		passport.use(new FacebookStrategy({
+	    clientID: FACEBOOK_APP_ID,
+	    clientSecret: FACEBOOK_APP_SECRET,
+	    callbackURL: "http://localhost:3000/auth/facebook/callback"
+	  },
+	  function(accessToken, refreshToken, profile, cb) {
+	    User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+	      return cb(err, user);
+	    });
+		 }
+		));
+	})
+
+	app.get('/tanks', (req, res, next) => {
+		if(!req.user) res.redirect('/login');
+		var filePath = path.join(__dirname, './tanks.html');
+		var fileContents = fs.readFileSync(filePath, 'utf8');
+		fileContents = fileContents.replace('{{USER}}', JSON.stringify(req.user));
+		res.send(fileContents);
+	})
+
+	app.post('/tanks', (req, res, next) => {
 		console.log(req.body);
 		res.send('OK');
 	})
@@ -113,7 +148,16 @@ function startServer() {
     res.sendFile(filePath);
   })
 
+	app.get('/auth/facebook',
+	  passport.authenticate('facebook'));
 
+	app.get('/auth/facebook/callback',
+	  passport.authenticate('facebook', { failureRedirect: '/login' }),
+	  function(req, res) {
+
+		// Successful authentication, redirect home.
+    res.redirect('/');
+  });
 
 	/* Defines what function to all when the server recieves any request from http://localhost:8080 */
 	server.on('listening', () => {
