@@ -31,9 +31,22 @@ var port =  process.env.PORT
 						1182;
 
 function addSockets() {
+
+	var players = {};
+
 	io.on('connection', (socket) => {
-		console.log('user connected')
-	})
+
+		socket.emit('addPlayer', )
+
+		socket.on('disconnect', () => {
+		});
+
+		socket.on('dataUpdate', (data) => {
+			io.emit('gameData', data);
+		});
+
+	});
+
 }
 
 function startServer() {

@@ -273,6 +273,9 @@ $canvas.height = 700;
 // Socket Variables
 var socket = io();
 
+// Players list
+var players = [];
+
 // Create class variables
 var f = [];
 var e = [];
@@ -387,12 +390,22 @@ document.addEventListener("mousemove", function(evt) {
   }
 });
 
+socket.on('gameData', (ships) => {
+  if (side == "F") {
+    e = ships;
+  } else if (side == "E") {
+    f = ships;
+  }
+});
+
 function init() {
   drawObstacles();
   window.requestAnimationFrame(animate);
 }
 
 function update() {
+  sendData();
+
   for (var i = 0; i < count; i++) {
     for (var j = 0; j < count; j++) {
       if (f[i].speed > e[j].speed) {
@@ -567,6 +580,14 @@ function gameOverScreen() {
   }
 }
 
+function sendData() {
+  if (side == "F") {
+    socket.emit('dataUpdate', f);
+  } else if (side == "E") {
+    socket.emit('dataUpdate', e);
+  }
+}
+
 function drawShooting(num) {
   if (side == "F") {
     if (!f[num].dead) {
@@ -680,7 +701,7 @@ init();
     - Position it with position: fixed
     - Have a button that would start the game
 - Socket.io
-  - 
+  -
 - Lobbying
   - Whenever io.on('connection') is triggered
   - Have an array of length 2, whenever the socket is triggered, add a stuff to
