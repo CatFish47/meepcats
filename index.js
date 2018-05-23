@@ -32,11 +32,25 @@ var port =  process.env.PORT
 
 function addSockets() {
 
-	var players = {};
+	var fPlayer;
+	var ePlayer;
+	var spectators; // Add later
 
 	io.on('connection', (socket) => {
 
-		io.emit('playerConnect', (null))
+		var playerType;
+
+		if (!fPlayer) {
+			fPlayer = true;
+			playerType = "fPlayer";
+		} else if (!ePlayer) {
+			ePlayer = true;
+			playerType = "ePlayer";
+		} else {
+			playerType = "spectator";
+		}
+
+		io.emit('playerConnect', playerType);
 
 		socket.on('fDataUpdate', (data) => {
 			io.emit('fGameData', data);
@@ -46,8 +60,16 @@ function addSockets() {
 			io.emit('eGameData', data);
 		});
 
-		socket.on('disconnect', () => {
-			io.emit('playerDisconnect', (null))
+		socket.on('disconnect', (data) => {
+
+			if (playerType == "fPlayer") {
+				fPlayer = false;
+			} else if (playerType == "ePlayer") {
+				ePlayer = false;
+			} else {
+				
+			}
+
 		});
 
 	});

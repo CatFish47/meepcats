@@ -5,8 +5,9 @@ class fShip {
     this.angle = 1.5 * Math.PI;
     this.speed = 0;
     this.size = 50;
+    this.imageSrc = "images/friendlyShip.png";
     this.image = new Image();
-    this.image.src = "images/friendlyShip.png";
+    this.image.src = this.imageSrc;
     this.selected = false;
     this.dead = false;
     this.moving = false;
@@ -251,7 +252,7 @@ class obstacle {
 }
 
 // Game variables
-var side = "F"; // If you joined the lobby second, you will be E.
+var side = "S"; // If you joined the lobby second, you will be E.
 var gameOver = false;
 var fWin = false;
 var eWin = false;
@@ -262,7 +263,8 @@ var gone = false;
 var count = 3;
 var shootShip = -1;
 var fire = new Image();
-fire.src = "images/fire.png";
+var testString = "images/fire.png";
+fire.src = testString;
 
 // Canvas Variables
 var $canvas = document.querySelector('canvas');
@@ -340,26 +342,30 @@ document.addEventListener("mousemove", function(evt) {
       for (var i = 0; i < count; i++) {
         if (Math.pow(mouseX - f[i].x, 2) + Math.pow(mouseY - f[i].y, 2)
         < Math.pow(f[i].size / 2, 2)) {
-          f[i].image.src = "images/selectedShip.png";
+          f[i].imageSrc = "images/selectedShip.png";
+          f[i].image.src = f[i].imageSrc;
 
           if (down && !f[i].moving && !f[i].dead) {
             f[i].selected = true;
           }
         } else {
-          f[i].image.src = "images/friendlyShip.png"
+          f[i].imageSrc = "images/friendlyShip.png"
+          f[i].image.src = f[i].imageSrc;
         }
       }
     } else if (side == "E") {
       for (var i = 0; i < count; i++) {
         if (Math.pow(mouseX - e[i].x, 2) + Math.pow(mouseY - e[i].y, 2)
         < Math.pow(e[i].size / 2, 2)) {
-          e[i].image.src = "images/selectedShip.png";
+          e[i].imageSrc = "images/selectedShip.png";
+          e[i].image.src = e[i].imageSrc;
 
           if (down && !e[i].moving && !e[i].dead) {
             e[i].selected = true;
           }
         } else {
-          e[i].image.src = "images/enemyShip.png"
+          e[i].imageSrc = "images/enemyShip.png";
+          e[i].image.src = e[i].imageSrc;
         }
       }
     }
@@ -367,48 +373,71 @@ document.addEventListener("mousemove", function(evt) {
     if (side == "F") {
       if (Math.pow(mouseX - f[shootShip].x, 2) + Math.pow(mouseY - f[shootShip].y, 2)
       < Math.pow(f[shootShip].size / 2, 2)) {
-        f[shootShip].image.src = "images/selectedShip.png";
+        f[shootShip].imageSrc = "images/selectedShip.png";
+        f[shootShip].image.src = f[shootShip].imageSrc;
 
         if (down && !f[shootShip].moving && !f[shootShip].dead) {
           f[shootShip].selected = true;
         }
       } else {
-        f[shootShip].image.src = "images/friendlyShip.png"
+        f[shootShip].imageSrc = "images/friendlyShip.png";
+        f[shootShip].image.src = f[shootShip].imageSrc;
       }
     } else if (side == "E") {
       if (Math.pow(mouseX - e[shootShip].x, 2) + Math.pow(mouseY - e[shootShip].y, 2)
       < Math.pow(e[shootShip].size / 2, 2)) {
-        e[shootShip].image.src = "images/selectedShip.png";
+        e[shootShip].imageSrc = "images/selectedShip.png";
+        e[shootShip].image.src = e[shootShip].imageSrc;
 
         if (down && !e[shootShip].moving && !e[shootShip].dead) {
           e[shootShip].selected = true;
         }
       } else {
-        e[shootShip].image.src = "images/enemyShip.png"
+        e[shootShip].imageSrc = "images/enemyShip.png";
+        e[shootShip].image.src = e[shootShip].imageSrc;
       }
     }
   }
 });
 
 socket.on('fGameData', (ships) => {
-  for (var i = 0; i < 2; i++) {
-    for (var j = 0; j < ships[i].length; j++) {
-      f[i][j] = ships[i][j];
+  if (side != "F") {
+    for (var i = 0; i < 3; i++) {
+      f[i].x = ships[i].x;
+      f[i].y = ships[i].y;
+      f[i].angle = ships[i].angle;
+      f[i].speed = ships[i].speed;
+      f[i].size = ships[i].size;
+      f[i].imageSrc = ships[i].imageSrc;
+      f[i].image.src = f[i].imageSrc;
+      f[i].dead = ships[i].dead;
+      f[i].moving = ships[i].moving;
     }
   }
 });
 socket.on('eGameData', (ships) => {
-  for (var i = 0; i < 2; i++) {
-    for (var j = 0; j < ships[i].length; j++) {
-      e[i][j] = ships[i][j];
+  if (side != "E") {
+    for (var i = 0; i < 3; i++) {
+      e[i].x = ships[i].x;
+      e[i].y = ships[i].y;
+      e[i].angle = ships[i].angle;
+      e[i].speed = ships[i].speed;
+      e[i].size = ships[i].size;
+      e[i].imageSrc = ships[i].imageSrc;
+      e[i].image.src = e[i].imageSrc;
+      e[i].dead = ships[i].dead;
+      e[i].moving = ships[i].moving;
     }
   }
 })
-socket.on('playerConnect', (player) => {
-  
-})
-socket.on('playerDisconnect', (player) => {
-
+socket.on('playerConnect', (playerType) => {
+  if (side == "S" && playerType == "fPlayer") {
+    side = "F";
+    console.log("Player F has joined!");
+  } else if (side == "S" && playerType == "ePlayer") {
+    side = "E";
+    console.log("Player E has joined!");
+  }
 })
 
 function init() {
@@ -429,7 +458,6 @@ function update() {
     }
 
     for (var j = 0; j < o.length; j++) {
-      console.log(e);
       f[i].obstacleCollide(o[j]);
       e[i].obstacleCollide(o[j]);
     }
@@ -469,7 +497,9 @@ function draw() {
 function animateFriendlyShips() {
   for (var i = 0; i < count; i++) {
     if (f[i].dead) {
-      f[i].image.src = "images/explosion.png";
+      f[i].imageSrc = "images/explosion.png";
+      f[i].image.src = f[i].imageSrc;
+
       if (f[i].size > 0) {
         f[i].size -= 0.5;
       } else {
@@ -511,7 +541,9 @@ function drawFriendlyShips() {
 function animateEnemyShips() {
   for (var i = 0; i < count; i++) {
     if (e[i].dead) {
-      e[i].image.src = "images/explosion.png";
+      e[i].imageSrc = "images/explosion.png";
+      e[i].image.src = e[i].imageSrc;
+
       if (e[i].size > 0) {
         e[i].size -= 0.5;
       } else {
@@ -593,7 +625,6 @@ function gameOverScreen() {
 }
 
 function sendData() {
-  console.log('rawr');
   if (side == "F") {
     socket.emit('fDataUpdate', f);
   } else if (side == "E") {
@@ -712,8 +743,6 @@ init();
   - Have div that has a start screen
     - Position it with position: fixed
     - Have a button that would start the game
-- Socket.io
-  -
 - Lobbying
   - Whenever io.on('connection') is triggered
   - Have an array of length 2, whenever the socket is triggered, add a stuff to
