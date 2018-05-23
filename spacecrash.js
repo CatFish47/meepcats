@@ -251,7 +251,7 @@ class obstacle {
 }
 
 // Game variables
-var side = "E"; // If you joined the lobby second, you will be E.
+var side = "F"; // If you joined the lobby second, you will be E.
 var gameOver = false;
 var fWin = false;
 var eWin = false;
@@ -390,13 +390,26 @@ document.addEventListener("mousemove", function(evt) {
   }
 });
 
-socket.on('gameData', (ships) => {
-  if (side == "F") {
-    e = ships;
-  } else if (side == "E") {
-    f = ships;
+socket.on('fGameData', (ships) => {
+  for (var i = 0; i < 2; i++) {
+    for (var j = 0; j < ships[i].length; j++) {
+      f[i][j] = ships[i][j];
+    }
   }
 });
+socket.on('eGameData', (ships) => {
+  for (var i = 0; i < 2; i++) {
+    for (var j = 0; j < ships[i].length; j++) {
+      e[i][j] = ships[i][j];
+    }
+  }
+})
+socket.on('playerConnect', (player) => {
+  
+})
+socket.on('playerDisconnect', (player) => {
+
+})
 
 function init() {
   drawObstacles();
@@ -416,6 +429,7 @@ function update() {
     }
 
     for (var j = 0; j < o.length; j++) {
+      console.log(e);
       f[i].obstacleCollide(o[j]);
       e[i].obstacleCollide(o[j]);
     }
@@ -438,8 +452,6 @@ function draw() {
   drawObstacles();
   drawEnemyShips();
   drawFriendlyShips();
-
-  console.log(shootShip);
 
   if (shootShip < 0) {
     for (var i = 0; i < count; i++) {
@@ -581,10 +593,11 @@ function gameOverScreen() {
 }
 
 function sendData() {
+  console.log('rawr');
   if (side == "F") {
-    socket.emit('dataUpdate', f);
+    socket.emit('fDataUpdate', f);
   } else if (side == "E") {
-    socket.emit('dataUpdate', e);
+    socket.emit('eDataUpdate', e);
   }
 }
 
@@ -622,7 +635,6 @@ function drawShooting(num) {
         }
       }
   } else if (side == "E") {
-    console.log("Crap is happening");
     if (!e[num].dead) {
       context.beginPath();
       context.strokeStyle = "#fff";
@@ -706,5 +718,7 @@ init();
   - Whenever io.on('connection') is triggered
   - Have an array of length 2, whenever the socket is triggered, add a stuff to
     the array
+
+- You need two channels, one for each side
 
 */

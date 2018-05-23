@@ -36,13 +36,18 @@ function addSockets() {
 
 	io.on('connection', (socket) => {
 
-		socket.emit('addPlayer', )
+		io.emit('playerConnect', (null))
 
-		socket.on('disconnect', () => {
+		socket.on('fDataUpdate', (data) => {
+			io.emit('fGameData', data);
 		});
 
-		socket.on('dataUpdate', (data) => {
-			io.emit('gameData', data);
+		socket.on('eDataUpdate', (data) => {
+			io.emit('eGameData', data);
+		});
+
+		socket.on('disconnect', () => {
+			io.emit('playerDisconnect', (null))
 		});
 
 	});
@@ -96,19 +101,6 @@ function startServer() {
 	    });
 		 }
 		));
-	})
-
-	app.get('/tanks', (req, res, next) => {
-		if(!req.user) res.redirect('/login');
-		var filePath = path.join(__dirname, './tanks.html');
-		var fileContents = fs.readFileSync(filePath, 'utf8');
-		fileContents = fileContents.replace('{{USER}}', JSON.stringify(req.user));
-		res.send(fileContents);
-	})
-
-	app.post('/tanks', (req, res, next) => {
-		console.log(req.body);
-		res.send('OK');
 	})
 
   app.get('/spacecrash.js', (req, res, next) => {
