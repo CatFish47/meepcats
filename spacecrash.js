@@ -252,6 +252,7 @@ class obstacle {
 }
 
 // Game variables
+var gameStart = false;
 var side = "S"; // If you joined the lobby second, you will be E.
 var gameOver = false;
 var fWin = false;
@@ -430,6 +431,14 @@ socket.on('eGameData', (ships) => {
     }
   }
 })
+socket.on('updatePlayers', (playersList) => {
+  players = playersList;
+
+  if (!gameStart && players.indexOf("ePlayer") != -1 && players.indexOf("fPlayer") != -1) {
+    gameStart = true;
+    init();
+  }
+})
 socket.on('playerConnect', (playerType) => {
   if (side == "S" && playerType == "fPlayer") {
     side = "F";
@@ -437,7 +446,13 @@ socket.on('playerConnect', (playerType) => {
   } else if (side == "S" && playerType == "ePlayer") {
     side = "E";
     console.log("Player E has joined!");
+  } else {
+    console.log("A spectator has joined!");
   }
+
+  players.push(playerType);
+
+  socket.emit('playersList', players);
 })
 
 function init() {
@@ -716,8 +731,6 @@ function animate() {
     gameOverScreen();
   }
 }
-
-init();
 
 /* TODO List:
 

@@ -60,6 +60,10 @@ function addSockets() {
 			io.emit('eGameData', data);
 		});
 
+		socket.on('playersList', (players) => {
+			io.emit('updatePlayers', players);
+		});
+
 		socket.on('disconnect', (data) => {
 
 			if (playerType == "fPlayer") {
@@ -67,7 +71,7 @@ function addSockets() {
 			} else if (playerType == "ePlayer") {
 				ePlayer = false;
 			} else {
-				
+
 			}
 
 		});
