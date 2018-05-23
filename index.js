@@ -71,7 +71,7 @@ function addSockets() {
 			} else if (playerType == "ePlayer") {
 				ePlayer = false;
 			} else {
-
+				
 			}
 
 		});
