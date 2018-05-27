@@ -434,8 +434,15 @@ socket.on('eGameData', (ships) => {
 socket.on('updatePlayers', (playersList) => {
   players = playersList;
 
+  console.log(players);
+
   if (!gameStart && players.indexOf("ePlayer") != -1 && players.indexOf("fPlayer") != -1) {
     gameStart = true;
+    init();
+  }
+
+  if (side == "S") {
+    document.getElementById("playerList").innerHTML = `<p id = 'playerList'>You are side ${side}</p>`;
     init();
   }
 })
@@ -490,6 +497,8 @@ function update() {
 
   animateFriendlyShips();
   animateEnemyShips();
+
+  document.getElementById("playerList").innerHTML = `<p id = 'playerList'> ${players} </p>`;
 }
 
 function draw() {
@@ -594,7 +603,10 @@ function drawEnemyShips() {
       context.drawImage(e[i].image, -e[i].size / 2, -e[i].size / 2,
         e[i].size, e[i].size);
     } catch (err) {
-      location.reload();
+      e[i].imageSrc = "images/enemyShip.png";
+      e[i].image.src = e[i].imageSrc;
+      context.drawImage(e[i].image, -e[i].size / 2, -e[i].size / 2,
+        e[i].size, e[i].size);
     }
     if (e[i].moving) {
       context.drawImage(fire, -e[i].size / 2, -e[i].size / 2 - e[i].size / 6,
