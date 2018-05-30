@@ -434,15 +434,8 @@ socket.on('eGameData', (ships) => {
 socket.on('updatePlayers', (playersList) => {
   players = playersList;
 
-  console.log(players);
-
   if (!gameStart && players.indexOf("ePlayer") != -1 && players.indexOf("fPlayer") != -1) {
     gameStart = true;
-    init();
-  }
-
-  if (side == "S") {
-    document.getElementById("playerList").innerHTML = `<p id = 'playerList'>You are side ${side}</p>`;
     init();
   }
 })
@@ -463,6 +456,8 @@ socket.on('playerConnect', (playerType) => {
 })
 
 function init() {
+  drawEnemyShips();
+  drawFriendlyShips();
   drawObstacles();
   window.requestAnimationFrame(animate);
 }
@@ -495,8 +490,6 @@ function update() {
 
   animateFriendlyShips();
   animateEnemyShips();
-
-  document.getElementById("playerList").innerHTML = `<p id = 'playerList'> ${players} </p>`;
 }
 
 function draw() {
@@ -516,6 +509,8 @@ function draw() {
   } else {
     drawShooting(shootShip);
   }
+
+  return 0;
 }
 
 function animateFriendlyShips() {
@@ -595,20 +590,12 @@ function drawEnemyShips() {
     context.save();
     context.translate(e[i].x, e[i].y);
     context.rotate(e[i].angle);
-<<<<<<< HEAD
     try {
       context.drawImage(e[i].image, -e[i].size / 2, -e[i].size / 2,
         e[i].size, e[i].size);
     } catch (err) {
-      e[i].imageSrc = "images/enemyShip.png";
-      e[i].image.src = e[i].imageSrc;
-      context.drawImage(e[i].image, -e[i].size / 2, -e[i].size / 2,
-        e[i].size, e[i].size);
+      location.reload();
     }
-=======
-    context.drawImage(e[i].image, -e[i].size / 2, -e[i].size / 2,
-      e[i].size, e[i].size);
->>>>>>> parent of 2f5a31d... Refining
     if (e[i].moving) {
       context.drawImage(fire, -e[i].size / 2, -e[i].size / 2 - e[i].size / 6,
         e[i].size, e[i].size + e[i].size / 8 * 3)
@@ -654,9 +641,9 @@ function checkGameOver() {
 
 function gameOverScreen() {
   if (fWin) {
-    console.alert("Team F has won!");
+    alert("Team F has won!");
   } else {
-    console.alert("Team E has won!");
+    alert("Team E has won!");
   }
 }
 
@@ -742,14 +729,13 @@ function dist(p1, p2) {
 
 function animate() {
   update();
-  draw();
 
-  var gameOver = false;
-
-  if (!gameOver) {
-    window.requestAnimationFrame(animate);
-  } else {
-    gameOverScreen();
+  if (draw() == 0) {
+    if (!gameOver) {
+      window.requestAnimationFrame(animate);
+    } else {
+      gameOverScreen();
+    }
   }
 }
 
