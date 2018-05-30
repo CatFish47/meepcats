@@ -463,8 +463,6 @@ socket.on('playerConnect', (playerType) => {
 })
 
 function init() {
-  drawEnemyShips();
-  drawFriendlyShips();
   drawObstacles();
   window.requestAnimationFrame(animate);
 }
@@ -518,8 +516,6 @@ function draw() {
   } else {
     drawShooting(shootShip);
   }
-
-  return 0;
 }
 
 function animateFriendlyShips() {
@@ -599,6 +595,7 @@ function drawEnemyShips() {
     context.save();
     context.translate(e[i].x, e[i].y);
     context.rotate(e[i].angle);
+<<<<<<< HEAD
     try {
       context.drawImage(e[i].image, -e[i].size / 2, -e[i].size / 2,
         e[i].size, e[i].size);
@@ -608,6 +605,10 @@ function drawEnemyShips() {
       context.drawImage(e[i].image, -e[i].size / 2, -e[i].size / 2,
         e[i].size, e[i].size);
     }
+=======
+    context.drawImage(e[i].image, -e[i].size / 2, -e[i].size / 2,
+      e[i].size, e[i].size);
+>>>>>>> parent of 2f5a31d... Refining
     if (e[i].moving) {
       context.drawImage(fire, -e[i].size / 2, -e[i].size / 2 - e[i].size / 6,
         e[i].size, e[i].size + e[i].size / 8 * 3)
@@ -653,9 +654,9 @@ function checkGameOver() {
 
 function gameOverScreen() {
   if (fWin) {
-    alert("Team F has won!");
+    console.alert("Team F has won!");
   } else {
-    alert("Team E has won!");
+    console.alert("Team E has won!");
   }
 }
 
@@ -741,13 +742,14 @@ function dist(p1, p2) {
 
 function animate() {
   update();
+  draw();
 
-  if (draw() == 0) {
-    if (!gameOver) {
-      window.requestAnimationFrame(animate);
-    } else {
-      gameOverScreen();
-    }
+  var gameOver = false;
+
+  if (!gameOver) {
+    window.requestAnimationFrame(animate);
+  } else {
+    gameOverScreen();
   }
 }
 
