@@ -438,6 +438,10 @@ socket.on('updatePlayers', (playersList) => {
     gameStart = true;
     init();
   }
+
+  if (side == "S") {
+    init();
+  }
 })
 socket.on('playerConnect', (playerType) => {
   if (side == "S" && playerType == "fPlayer") {
