@@ -264,8 +264,7 @@ var gone = false;
 var count = 3;
 var shootShip = -1;
 var fire = new Image();
-var testString = "images/fire.png";
-fire.src = testString;
+fire.src = "images/fire.png";
 
 // Canvas Variables
 var $canvas = document.querySelector('canvas');
@@ -433,6 +432,8 @@ socket.on('eGameData', (ships) => {
 })
 socket.on('updatePlayers', (playersList) => {
   players = playersList;
+
+  document.querySelector("#playerList").innerHTML = `You are side ${side}`;
 
   if (!gameStart && players.indexOf("ePlayer") != -1 && players.indexOf("fPlayer") != -1) {
     gameStart = true;
