@@ -433,7 +433,7 @@ socket.on('eGameData', (ships) => {
 socket.on('updatePlayers', (playersList) => {
   players = playersList;
 
-  document.querySelector("#playerList").innerHTML = `You are side ${side}`;
+  document.querySelector("#side").innerHTML = `You are side ${side}`;
 
   if (!gameStart && players.indexOf("ePlayer") != -1 && players.indexOf("fPlayer") != -1) {
     gameStart = true;
