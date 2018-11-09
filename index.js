@@ -141,6 +141,8 @@ function startServer() {
 		res.sendFile(filePath);
 	})
 
+	// Spacecrash Images
+
   app.get('/images/space.jpg', (req, res, next) => {
     var filePath = path.join(__dirname, './spacecrash/images/space.jpg')
     res.sendFile(filePath);
@@ -201,6 +203,28 @@ function startServer() {
 
 	app.get('/nyashapon.css', (req, res, next) => {
 		var filePath = path.join(__dirname, './nyashapon/nyashapon.css')
+		res.sendFile(filePath);
+	})
+
+	// Spacecrash Images
+
+	app.get('/images/leo.png', (req, res, next) => {
+		var filePath = path.join(__dirname, './nyashapon/images/leo.png')
+		res.sendFile(filePath);
+	})
+
+	app.get('/images/stella.png', (req, res, next) => {
+		var filePath = path.join(__dirname, './nyashapon/images/stella.png')
+		res.sendFile(filePath);
+	})
+
+	app.get('/images/cathbad.png', (req, res, next) => {
+		var filePath = path.join(__dirname, './nyashapon/images/cathbad.png')
+		res.sendFile(filePath);
+	})
+
+	app.get('/images/acinon.png', (req, res, next) => {
+		var filePath = path.join(__dirname, './nyashapon/images/acinon.png')
 		res.sendFile(filePath);
 	})
 
