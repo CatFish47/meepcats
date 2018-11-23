@@ -11,7 +11,7 @@
       - Create screen
     - Think about how labyrinth will work
     - Think about how forest training will work
-    - Implement a cat leveling system
+    - Implement a cat leveling system (WIP)
     - Implement fishing system
 
   ICEBOX:
@@ -124,6 +124,12 @@ class cat {
     this.spd = this.baseSpd;
     this.crt = this.baseCrt;
     this.cdm = this.baseCdm;
+
+    // Level
+    this.level = 1;
+    this.exp = 0;
+    // MAX EXP FORMULA HERE
+    this.max = 0; // Change later
   }
 
   equip(augment) { // Pass in an augment class
