@@ -253,7 +253,7 @@ class obstacle {
 
 // Game variables
 var gameStart = false;
-var side = "S"; // If you joined the lobby second, you will be E.
+var side = ""; // If you joined the lobby second, you will be E.
 var gameOver = false;
 var fWin = false;
 var eWin = false;
@@ -445,13 +445,14 @@ socket.on('updatePlayers', (playersList) => {
   }
 })
 socket.on('playerConnect', (playerType) => {
-  if (side == "S" && playerType == "fPlayer") {
+  if (side == "" && playerType == "fPlayer") {
     side = "F";
     console.log("Player F has joined!");
-  } else if (side == "S" && playerType == "ePlayer") {
+  } else if (side == "" && playerType == "ePlayer") {
     side = "E";
     console.log("Player E has joined!");
   } else {
+    side = "S";
     console.log("A spectator has joined!");
   }
 
