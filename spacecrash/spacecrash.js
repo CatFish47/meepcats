@@ -437,7 +437,7 @@ socket.on('updatePlayers', (playersList) => {
 
   if (!gameStart && players.indexOf("ePlayer") != -1 && players.indexOf("fPlayer") != -1) {
     gameStart = true;
-    setTimeout(init, 5000);
+    setTimeout(init, 3000);
   }
 
   if (side == "S") {
@@ -596,12 +596,8 @@ function drawEnemyShips() {
     context.save();
     context.translate(e[i].x, e[i].y);
     context.rotate(e[i].angle);
-    try {
-      context.drawImage(e[i].image, -e[i].size / 2, -e[i].size / 2,
-        e[i].size, e[i].size);
-    } catch (err) {
-      location.reload();
-    }
+    context.drawImage(e[i].image, -e[i].size / 2, -e[i].size / 2,
+      e[i].size, e[i].size);
     if (e[i].moving) {
       context.drawImage(fire, -e[i].size / 2, -e[i].size / 2 - e[i].size / 6,
         e[i].size, e[i].size + e[i].size / 8 * 3)
