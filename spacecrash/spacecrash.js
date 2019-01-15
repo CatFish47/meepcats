@@ -451,7 +451,7 @@ socket.on('playerConnect', (playerType) => {
   } else if (side == "" && playerType == "ePlayer") {
     side = "E";
     console.log("Player E has joined!");
-  } else {
+  } else if (side == "" && playerType == "spectator"){
     side = "S";
     console.log("A spectator has joined!");
   }
