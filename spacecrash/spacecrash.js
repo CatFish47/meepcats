@@ -647,6 +647,8 @@ function gameOverScreen() {
   } else {
     alert("Team E has won!");
   }
+
+  socket.emit('endGame', true);
 }
 
 function sendData() {
