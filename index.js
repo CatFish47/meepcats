@@ -135,10 +135,10 @@ function startServer() {
 		res.sendFile(filePath);
 	})
 
-	app.post('/spacecrash', (req, res, next) => {
-		console.log(req.body);
-		res.send('OK');
-	})
+	// app.post('/spacecrash', (req, res, next) => {
+	// 	console.log(req.body);
+	// 	res.send('OK');
+	// })
 
   app.get('/spacecrash.js', (req, res, next) => {
 		var filePath = path.join(__dirname, './spacecrash/spacecrash.js')
@@ -194,48 +194,48 @@ function startServer() {
 
 	// NOTE: Nyashapon Stuff Here
 
-	app.get('/nyashapon', (req, res, next) => {
-		var filePath = path.join(__dirname, './nyashapon/nyashapon.html');
-
-		res.sendFile(filePath);
-	})
-
-	app.post('/nyashapon', (req, res, next) => {
-		console.log(req.body);
-		res.send('OK');
-	})
-
-	app.get('/nyashapon.js', (req, res, next) => {
-		var filePath = path.join(__dirname, './nyashapon/nyashapon.js')
-		res.sendFile(filePath);
-	});
-
-	app.get('/nyashapon.css', (req, res, next) => {
-		var filePath = path.join(__dirname, './nyashapon/nyashapon.css')
-		res.sendFile(filePath);
-	})
-
-	// Spacecrash Images
-
-	app.get('/images/leo.png', (req, res, next) => {
-		var filePath = path.join(__dirname, './nyashapon/images/leo.png')
-		res.sendFile(filePath);
-	})
-
-	app.get('/images/stella.png', (req, res, next) => {
-		var filePath = path.join(__dirname, './nyashapon/images/stella.png')
-		res.sendFile(filePath);
-	})
-
-	app.get('/images/cathbad.png', (req, res, next) => {
-		var filePath = path.join(__dirname, './nyashapon/images/cathbad.png')
-		res.sendFile(filePath);
-	})
-
-	app.get('/images/acinon.png', (req, res, next) => {
-		var filePath = path.join(__dirname, './nyashapon/images/acinon.png')
-		res.sendFile(filePath);
-	})
+	// app.get('/nyashapon', (req, res, next) => {
+	// 	var filePath = path.join(__dirname, './nyashapon/nyashapon.html');
+	//
+	// 	res.sendFile(filePath);
+	// })
+	//
+	// app.post('/nyashapon', (req, res, next) => {
+	// 	console.log(req.body);
+	// 	res.send('OK');
+	// })
+	//
+	// app.get('/nyashapon.js', (req, res, next) => {
+	// 	var filePath = path.join(__dirname, './nyashapon/nyashapon.js')
+	// 	res.sendFile(filePath);
+	// });
+	//
+	// app.get('/nyashapon.css', (req, res, next) => {
+	// 	var filePath = path.join(__dirname, './nyashapon/nyashapon.css')
+	// 	res.sendFile(filePath);
+	// })
+	//
+	// // Spacecrash Images
+	//
+	// app.get('/images/leo.png', (req, res, next) => {
+	// 	var filePath = path.join(__dirname, './nyashapon/images/leo.png')
+	// 	res.sendFile(filePath);
+	// })
+	//
+	// app.get('/images/stella.png', (req, res, next) => {
+	// 	var filePath = path.join(__dirname, './nyashapon/images/stella.png')
+	// 	res.sendFile(filePath);
+	// })
+	//
+	// app.get('/images/cathbad.png', (req, res, next) => {
+	// 	var filePath = path.join(__dirname, './nyashapon/images/cathbad.png')
+	// 	res.sendFile(filePath);
+	// })
+	// 
+	// app.get('/images/acinon.png', (req, res, next) => {
+	// 	var filePath = path.join(__dirname, './nyashapon/images/acinon.png')
+	// 	res.sendFile(filePath);
+	// })
 
 	app.get('/auth/facebook',
 	  passport.authenticate('facebook'));
