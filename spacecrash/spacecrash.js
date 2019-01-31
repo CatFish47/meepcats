@@ -437,7 +437,7 @@ socket.on('updatePlayers', (playersList) => {
 
   if (!gameStart && players.indexOf("ePlayer") != -1 && players.indexOf("fPlayer") != -1) {
     gameStart = true;
-    setTimeout(init, 500);
+    setTimeout(init, 3000);
   }
 
   if (side == "S") {
