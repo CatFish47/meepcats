@@ -66,17 +66,17 @@ function addSockets() {
 		});
 
 		socket.on('endGame', (bool) => {
-			fPlayer = false;
-			ePlayer = false;
+			players.fPlayer = false;
+			players.ePlayer = false;
 			playerType = "";
 		});
 
 		socket.on('disconnect', (data) => {
 
 			if (playerType == "fPlayer") {
-				fPlayer = false;
+				players.fPlayer = false;
 			} else if (playerType == "ePlayer") {
-				ePlayer = false;
+				players.ePlayer = false;
 			} else {
 
 			}
