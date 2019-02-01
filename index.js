@@ -28,7 +28,7 @@ var io = Io(server);
 /* Defines what port to use to listen to web requests */
 var port =  process.env.PORT
 						? parseInt(process.env.PORT):
-						1182;
+						1592;
 
 function addSockets() {
 
@@ -41,17 +41,15 @@ function addSockets() {
 
 		var playerType;
 
-		if (!fPlayer) {
+		if (!players.fPlayer) {
 			players.fPlayer = true;
 			playerType = "fPlayer";
-		} else if (!ePlayer) {
+		} else if (!players.ePlayer) {
 			players.ePlayer = true;
 			playerType = "ePlayer";
 		} else {
 			playerType = "spectator";
 		}
-
-		players.push(playerType);
 
 		io.emit('playerConnect', playerType);
 
@@ -231,7 +229,7 @@ function startServer() {
 	// 	var filePath = path.join(__dirname, './nyashapon/images/cathbad.png')
 	// 	res.sendFile(filePath);
 	// })
-	// 
+	//
 	// app.get('/images/acinon.png', (req, res, next) => {
 	// 	var filePath = path.join(__dirname, './nyashapon/images/acinon.png')
 	// 	res.sendFile(filePath);
