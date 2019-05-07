@@ -138,8 +138,28 @@ function startServer() {
 	// 	res.send('OK');
 	// })
 
-  app.get('/spacecrash.js', (req, res, next) => {
-		var filePath = path.join(__dirname, './spacecrash/spacecrash.js')
+  app.get('/init.js', (req, res, next) => {
+		var filePath = path.join(__dirname, './spacecrash/init.js')
+		res.sendFile(filePath);
+	});
+
+	app.get('/sockets.js', (req, res, next) => {
+		var filePath = path.join(__dirname, './spacecrash/sockets.js')
+		res.sendFile(filePath);
+	});
+
+	app.get('/classes.js', (req, res, next) => {
+		var filePath = path.join(__dirname, './spacecrash/classes.js')
+		res.sendFile(filePath);
+	});
+
+	app.get('/game.js', (req, res, next) => {
+		var filePath = path.join(__dirname, './spacecrash/game.js')
+		res.sendFile(filePath);
+	});
+
+	app.get('/eventlisteners.js', (req, res, next) => {
+		var filePath = path.join(__dirname, './spacecrash/eventlisteners.js')
 		res.sendFile(filePath);
 	});
 
