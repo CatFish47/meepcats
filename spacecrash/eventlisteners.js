@@ -1,25 +1,15 @@
 // Mouse Event Listeners
-document.addEventListener("mousedown", function(evt) { down = true; });
-document.addEventListener("mouseup", function(evt) {
-  if (side == "F") {
-    for (var i = 0; i < count; i++) {
-      if (f[i].selected == true) {
-        f[i].speed = dist({x: f[i].x, y: f[i].y}, {x: mouseX, y: mouseY}) / 20;
-      }
-      down = false;
-      f[i].selected = false;
-    }
-  } else if (side == "E") {
-    for (var i = 0; i < count; i++) {
-      if (e[i].selected == true) {
-        e[i].speed = dist({x: e[i].x, y: e[i].y}, {x: mouseX, y: mouseY}) / 20;
-      }
-      down = false;
-      e[i].selected = false;
-    }
-  }
+document.addEventListener("mousedown", function(evt) {
+  down = true;
 
-  shootShip = -1;
+  console.log(players);
+});
+document.addEventListener("mouseup", function(evt) {
+  if (players[id].selected == true) {
+    players[id].speed = dist({x: players[id].x, y: players[id].y}, {x: mouseX, y: mouseY}) / 20;
+  }
+  down = false;
+  players[id].selected = false;
 });
 document.addEventListener("mousemove", function(evt) {
   var rect = $canvas.getBoundingClientRect();
@@ -39,65 +29,31 @@ document.addEventListener("mousemove", function(evt) {
     mouseY = $canvas.height;
   }
 
-  if (shootShip < 0) {
-    if (side == "F") {
-      for (var i = 0; i < count; i++) {
-        if (Math.pow(mouseX - f[i].x, 2) + Math.pow(mouseY - f[i].y, 2)
-        < Math.pow(f[i].size / 2, 2)) {
-          f[i].imageSrc = "images/selectedShip.png";
-          f[i].image.src = f[i].imageSrc;
+  if (!players[id].selected) {
+    if (Math.pow(mouseX - players[id].x, 2) + Math.pow(mouseY - players[id].y, 2)
+    < Math.pow(players[id].size / 2, 2)) {
+      players[id].imageSrc = "images/selectedShip.png";
+      players[id].image.src = players[id].imageSrc;
 
-          if (down && !f[i].moving && !f[i].dead) {
-            f[i].selected = true;
-          }
-        } else {
-          f[i].imageSrc = "images/friendlyShip.png"
-          f[i].image.src = f[i].imageSrc;
-        }
+      if (down && !players[id].moving && !players[id].dead) {
+        players[id].selected = true;
       }
-    } else if (side == "E") {
-      for (var i = 0; i < count; i++) {
-        if (Math.pow(mouseX - e[i].x, 2) + Math.pow(mouseY - e[i].y, 2)
-        < Math.pow(e[i].size / 2, 2)) {
-          e[i].imageSrc = "images/selectedShip.png";
-          e[i].image.src = e[i].imageSrc;
-
-          if (down && !e[i].moving && !e[i].dead) {
-            e[i].selected = true;
-          }
-        } else {
-          e[i].imageSrc = "images/enemyShip.png";
-          e[i].image.src = e[i].imageSrc;
-        }
-      }
+    } else {
+      players[id].imageSrc = "images/friendlyShip.png";
+      players[id].image.src = players[id].imageSrc;
     }
   } else {
-    if (side == "F") {
-      if (Math.pow(mouseX - f[shootShip].x, 2) + Math.pow(mouseY - f[shootShip].y, 2)
-      < Math.pow(f[shootShip].size / 2, 2)) {
-        f[shootShip].imageSrc = "images/selectedShip.png";
-        f[shootShip].image.src = f[shootShip].imageSrc;
+    if (Math.pow(mouseX - players[id].x, 2) + Math.pow(mouseY - players[id].y, 2)
+    < Math.pow(players[id].size / 2, 2)) {
+      players[id].imageSrc = "images/selectedShip.png";
+      players[id].image.src = players[id].imageSrc;
 
-        if (down && !f[shootShip].moving && !f[shootShip].dead) {
-          f[shootShip].selected = true;
-        }
-      } else {
-        f[shootShip].imageSrc = "images/friendlyShip.png";
-        f[shootShip].image.src = f[shootShip].imageSrc;
+      if (down && !players[id].moving && !players[id].dead) {
+        players[id].selected = true;
       }
-    } else if (side == "E") {
-      if (Math.pow(mouseX - e[shootShip].x, 2) + Math.pow(mouseY - e[shootShip].y, 2)
-      < Math.pow(e[shootShip].size / 2, 2)) {
-        e[shootShip].imageSrc = "images/selectedShip.png";
-        e[shootShip].image.src = e[shootShip].imageSrc;
-
-        if (down && !e[shootShip].moving && !e[shootShip].dead) {
-          e[shootShip].selected = true;
-        }
-      } else {
-        e[shootShip].imageSrc = "images/enemyShip.png";
-        e[shootShip].image.src = e[shootShip].imageSrc;
-      }
+    } else {
+      players[id].imageSrc = "images/friendlyShip.png";
+      players[id].image.src = players[id].imageSrc;
     }
   }
 });

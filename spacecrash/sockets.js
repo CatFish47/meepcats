@@ -1,60 +1,33 @@
-socket.on('fGameData', (ships) => {
-  if (side != "F") {
-    for (var i = 0; i < 3; i++) {
-      f[i].x = ships[i].x;
-      f[i].y = ships[i].y;
-      f[i].angle = ships[i].angle;
-      f[i].speed = ships[i].speed;
-      f[i].size = ships[i].size;
-      f[i].imageSrc = ships[i].imageSrc;
-      f[i].image.src = f[i].imageSrc;
-      f[i].dead = ships[i].dead;
-      f[i].moving = ships[i].moving;
-    }
+socket.on('gameData', (data) => {
+  // Add code to update gameData for all spaceships
+  if (data.id != id) {
+    players[data.id] = data.ship;
   }
 });
-socket.on('eGameData', (ships) => {
-  if (side != "E") {
-    for (var i = 0; i < 3; i++) {
-      e[i].x = ships[i].x;
-      e[i].y = ships[i].y;
-      e[i].angle = ships[i].angle;
-      e[i].speed = ships[i].speed;
-      e[i].size = ships[i].size;
-      e[i].imageSrc = ships[i].imageSrc;
-      e[i].image.src = e[i].imageSrc;
-      e[i].dead = ships[i].dead;
-      e[i].moving = ships[i].moving;
+socket.on('playerConnect', (playerIds) => {
+  if (id == -1) {
+    var uniqueId = false;
+
+    while (uniqueId == false) {
+      id = Math.floor(Math.random() * 100); // Id is a rand num between 0-99
+      if (!players[id]) { // If there is no Id in the game alrdy
+        players[id] = true; // Set it as true
+        uniqueId = true; // Get outta the loop
+
+        you = new Ship(Math.floor(Math.random() * mapWidth), Math.floor(Math.random() * mapHeight), id);
+      }
     }
+
+    var data = {id: id, ship: you};
+
+    players[id] = you;
+    socket.emit('returnId', data);
   }
 })
-socket.on('updatePlayers', (playersList) => {
-  players = playersList;
-
-  document.querySelector("#side").innerHTML = `You are side ${side}. Players: ${players}`;
-
-  if (!gameStart && players.indexOf("ePlayer") != -1 && players.indexOf("fPlayer") != -1) {
-    gameStart = true;
-    setTimeout(init, 3000);
-  }
-
-  if (side == "S") {
-    init();
-  }
+socket.on('updatePlayers', (data) => {
+  players[data.id] = data.ship;
+  console.log(players);
 })
-socket.on('playerConnect', (playerType) => {
-  if (side == "" && playerType == "fPlayer") {
-    side = "F";
-    console.log("Player F has joined!");
-  } else if (side == "" && playerType == "ePlayer") {
-    side = "E";
-    console.log("Player E has joined!");
-  } else if (side == "" && playerType == "spectator"){
-    side = "S";
-    console.log("A spectator has joined!");
-  }
-
-  players.push(playerType);
-
-  socket.emit('playersList', players);
+socket.on('removePlayer', (id) => {
+  players[id] = false;
 })

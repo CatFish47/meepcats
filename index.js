@@ -32,54 +32,30 @@ var port =  process.env.PORT
 
 function addSockets() {
 
-	var players = {
-		fPlayer: false,
-		ePlayer: false
-	};
+	var players = {}; // Players in the game based on Id
 
 	io.on('connection', (socket) => {
 
-		var playerType;
+		var id;
 
-		if (!players.fPlayer) {
-			players.fPlayer = true;
-			playerType = "fPlayer";
-		} else if (!players.ePlayer) {
-			players.ePlayer = true;
-			playerType = "ePlayer";
-		} else {
-			playerType = "spectator";
-		}
+		io.emit('playerConnect', players);
 
-		io.emit('playerConnect', playerType);
+		socket.on('returnId', (data) => {
+			id = data.id;
+			players[id] = true;
+			console.log(players);
 
-		socket.on('fDataUpdate', (data) => {
-			io.emit('fGameData', data);
-		});
+			io.emit('updatePlayers', data);
+		})
 
-		socket.on('eDataUpdate', (data) => {
-			io.emit('eGameData', data);
-		});
-
-		socket.on('playersList', (players) => {
-			io.emit('updatePlayers', players);
-		});
-
-		socket.on('endGame', (bool) => {
-			players.fPlayer = false;
-			players.ePlayer = false;
-			playerType = "";
+		socket.on('dataUpdate', (data) => {
+			io.emit('gameData', data);
 		});
 
 		socket.on('disconnect', (data) => {
 
-			if (playerType == "fPlayer") {
-				players.fPlayer = false;
-			} else if (playerType == "ePlayer") {
-				players.ePlayer = false;
-			} else {
-
-			}
+			players[id] = false;
+			io.emit('removePlayer', id);
 
 		});
 
@@ -109,20 +85,6 @@ function startServer() {
 		var filePath = path.join(__dirname, './login.html');
 
 		res.sendFile(filePath);
-	})
-
-	app.post('/login', (req, res, next) => {
-		passport.use(new FacebookStrategy({
-	    clientID: FACEBOOK_APP_ID,
-	    clientSecret: FACEBOOK_APP_SECRET,
-	    callbackURL: "http://localhost:3000/auth/facebook/callback"
-	  },
-	  function(accessToken, refreshToken, profile, cb) {
-	    User.findOrCreate({ facebookId: profile.id }, function (err, user) {
-	      return cb(err, user);
-	    });
-		 }
-		));
 	})
 
 	// NOTE: Spacecrash Stuff Here
