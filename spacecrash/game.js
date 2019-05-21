@@ -292,7 +292,7 @@ function shipCollide(ship1, ship2) {
       && iX < Math.max(eVertices[e[0]].x, eVertices[e[1]].x)) {
         ship2.dead = true;
 
-        if (players[id] == ship1) { score++; }
+        if (players[id] == ship1) { score += 0.5; }
 
         deaths[Math.floor(Math.random() * deaths.length)].play();
       }
