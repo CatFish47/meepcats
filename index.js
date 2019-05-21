@@ -34,7 +34,7 @@ function addSockets() {
 
 	var players = {}; // Players in the game based on Id
 	var o = []; // Common obstacles for everyone!!!! So exciting
-	var numOfObstacles = 12;
+	var numOfObstacles = 15;
 	var mapWidth = 2000; // These should change accordingly with the actual game
 	var mapHeight = 1500; // Should I need to change these values
 	var obsSize = 250;
@@ -157,6 +157,16 @@ function startServer() {
 
   app.get('/images/meteor.png', (req, res, next) => {
     var filePath = path.join(__dirname, './spacecrash/images/meteor.png')
+    res.sendFile(filePath);
+  })
+
+	app.get('/images/ice.png', (req, res, next) => {
+    var filePath = path.join(__dirname, './spacecrash/images/ice.png')
+    res.sendFile(filePath);
+  })
+
+	app.get('/images/blackhole.png', (req, res, next) => {
+    var filePath = path.join(__dirname, './spacecrash/images/blackhole.png')
     res.sendFile(filePath);
   })
 

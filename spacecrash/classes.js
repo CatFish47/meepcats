@@ -20,7 +20,10 @@ class Obstacle {
     this.x = x;
     this.y = y;
     this.size = size;
+
+    let imageSrcs = ["images/meteor.png", "images/ice.png", "images/blackhole.png"]
+
     this.image = new Image();
-    this.image.src = "images/meteor.png";
+    this.image.src = imageSrcs[Math.floor(Math.random() * imageSrcs.length)];
   }
 }
