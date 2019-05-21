@@ -52,12 +52,21 @@ function draw() {
   drawBoard();
   drawObstacles();
   drawShips();
+  drawScore();
 
   if (players[id].selected) {
     drawShooting();
   }
 
   return 0;
+}
+
+function drawScore() {
+  context.beginPath();
+  context.fillStyle = "#fff";
+  context.font = "30px Courier";
+  context.fillText("Score: " + score, 10, 50);
+  context.closePath();
 }
 
 function animateShips() {
@@ -282,6 +291,9 @@ function shipCollide(ship1, ship2) {
       && Math.min(eVertices[e[0]].x, eVertices[e[1]].x) < iX
       && iX < Math.max(eVertices[e[0]].x, eVertices[e[1]].x)) {
         ship2.dead = true;
+
+        if (players[id] == ship1) { score++; }
+
         deaths[Math.floor(Math.random() * deaths.length)].play();
       }
     }

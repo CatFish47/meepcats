@@ -36,4 +36,6 @@ var music = new Audio('background.ogg');
 music.loop = true;
 var pshh = new Audio('psssh.ogg');
 
+var score = 0;
+
 var you;
