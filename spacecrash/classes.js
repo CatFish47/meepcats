@@ -6,7 +6,7 @@ class Ship {
     this.angle = 1.5 * Math.PI;
     this.speed = 0;
     this.size = 50;
-    this.imageSrc = "images/friendlyShip.png";
+    this.imageSrc = "friendlyShip.png";
     this.image = new Image();
     this.image.src = this.imageSrc;
     this.selected = false;
@@ -21,7 +21,7 @@ class Obstacle {
     this.y = y;
     this.size = size;
 
-    let imageSrcs = ["images/meteor.png", "images/ice.png", "images/blackhole.png"]
+    let imageSrcs = ["meteor.png", "ice.png", "blackhole.png"]
 
     this.image = new Image();
     this.image.src = imageSrcs[Math.floor(Math.random() * imageSrcs.length)];

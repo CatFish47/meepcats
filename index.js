@@ -143,58 +143,6 @@ function startServer() {
 		res.sendFile(filePath);
 	})
 
-	// Spacecrash Images
-
-  app.get('/images/space.jpg', (req, res, next) => {
-    var filePath = path.join(__dirname, './spacecrash/images/space.jpg')
-    res.sendFile(filePath);
-  })
-
-  app.get('/images/ship.png', (req, res, next) => {
-    var filePath = path.join(__dirname, './spacecrash/images/ship.png')
-    res.sendFile(filePath);
-  })
-
-  app.get('/images/meteor.png', (req, res, next) => {
-    var filePath = path.join(__dirname, './spacecrash/images/meteor.png')
-    res.sendFile(filePath);
-  })
-
-	app.get('/images/ice.png', (req, res, next) => {
-    var filePath = path.join(__dirname, './spacecrash/images/ice.png')
-    res.sendFile(filePath);
-  })
-
-	app.get('/images/blackhole.png', (req, res, next) => {
-    var filePath = path.join(__dirname, './spacecrash/images/blackhole.png')
-    res.sendFile(filePath);
-  })
-
-  app.get('/images/explosion.png', (req, res, next) => {
-    var filePath = path.join(__dirname, './spacecrash/images/explosion.png')
-    res.sendFile(filePath);
-  })
-
-  app.get('/images/fire.png', (req, res, next) => {
-    var filePath = path.join(__dirname, './spacecrash/images/fire.png')
-    res.sendFile(filePath);
-  })
-
-  app.get('/images/friendlyShip.png', (req, res, next) => {
-    var filePath = path.join(__dirname, './spacecrash/images/friendlyShip.png')
-    res.sendFile(filePath);
-  })
-
-  app.get('/images/enemyShip.png', (req, res, next) => {
-    var filePath = path.join(__dirname, './spacecrash/images/enemyShip.png')
-    res.sendFile(filePath);
-  })
-
-  app.get('/images/selectedShip.png', (req, res, next) => {
-    var filePath = path.join(__dirname, './spacecrash/images/selectedShip.png')
-    res.sendFile(filePath);
-  })
-
 	// NOTE: Nyashapon Stuff Here
 
 	// app.get('/nyashapon', (req, res, next) => {

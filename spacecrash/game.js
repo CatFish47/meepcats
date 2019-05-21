@@ -1,5 +1,16 @@
+/*
+
+TODO:
+- Add music and SFX
+- Add scoring system
+- Add log/chat system
+
+*/
+
 function init() {
   clearInterval(interval);
+
+  music.play();
 
   drawShips();
   drawObstacles();
@@ -53,7 +64,7 @@ function animateShips() {
   for (var i in players) {
     if (players[i]) {
       if (players[i].dead) {
-        players[i].imageSrc = "images/explosion.png"; // Why the fuck did I do it this way...?
+        players[i].imageSrc = "explosion.png"; // Why the fuck did I do it this way...?
         players[i].image.src = players[i].imageSrc;
 
         if (players[i].size > 0) {
@@ -90,11 +101,11 @@ function drawShips() {
       players[i].image = new Image();
 
       if (players[i].dead) {
-        players[i].image.src = "images/explosion.png";
+        players[i].image.src = "explosion.png";
       } else if (players[i] == players[id]) {
         players[i].image.src = players[i].imageSrc;
       } else {
-        players[i].image.src = "images/enemyShip.png";
+        players[i].image.src = "enemyShip.png";
       }
 
       context.drawImage(players[i].image, -players[i].size / 2, -players[i].size / 2,
@@ -128,7 +139,7 @@ function drawBoard() {
   context.fillStyle = "#000";
   context.fillRect(0, 0, $canvas.width, $canvas.height);
   var spaceImg = new Image();
-  spaceImg.src = "images/space.jpg";
+  spaceImg.src = "space.jpg";
   context.drawImage(spaceImg, -offsetX, -offsetY, mapWidth, mapHeight);
   context.closePath();
 }
@@ -201,6 +212,7 @@ function wallCollide(ship) {
     if (fVertices[i].x > mapWidth || fVertices[i].x < 0
       || fVertices[i].y < 0 || fVertices[i].y > mapHeight) {
         ship.dead = true;
+        deaths[Math.floor(Math.random() * deaths.length)].play();
         ship.speed = 0;
     }
   }
@@ -270,6 +282,7 @@ function shipCollide(ship1, ship2) {
       && Math.min(eVertices[e[0]].x, eVertices[e[1]].x) < iX
       && iX < Math.max(eVertices[e[0]].x, eVertices[e[1]].x)) {
         ship2.dead = true;
+        deaths[Math.floor(Math.random() * deaths.length)].play();
       }
     }
   }
@@ -294,6 +307,7 @@ function obstacleCollide(ship, obstacle) {
     Math.pow(fVertices[i].y - obstacle.y, 2) <
     Math.pow(obstacle.size / 2, 2)) {
       ship.dead = true;
+      deaths[Math.floor(Math.random() * deaths.length)].play();
       ship.speed = 0;
     } else {
       // Implement Circle-Edge collsions later with the following link:

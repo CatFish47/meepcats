@@ -7,6 +7,7 @@ document.addEventListener("mousedown", function(evt) {
 document.addEventListener("mouseup", function(evt) {
   if (players[id].selected == true) {
     players[id].speed = dist({x: players[id].x - offsetX, y: players[id].y - offsetY}, {x: mouseX, y: mouseY}) / 20;
+    pshh.play();
   }
   down = false;
   players[id].selected = false;
@@ -32,27 +33,27 @@ document.addEventListener("mousemove", function(evt) {
   if (!players[id].selected) {
     if (Math.pow(mouseX - $canvas.width / 2, 2) + Math.pow(mouseY - $canvas.height / 2, 2)
     < Math.pow(players[id].size / 2, 2)) {
-      players[id].imageSrc = "images/selectedShip.png";
+      players[id].imageSrc = "selectedShip.png";
       players[id].image.src = players[id].imageSrc;
 
       if (down && !players[id].moving && !players[id].dead) {
         players[id].selected = true;
       }
     } else {
-      players[id].imageSrc = "images/friendlyShip.png";
+      players[id].imageSrc = "friendlyShip.png";
       players[id].image.src = players[id].imageSrc;
     }
   } else {
     if (Math.pow(mouseX - $canvas.width / 2, 2) + Math.pow(mouseY - $canvas.height / 2, 2)
     < Math.pow(players[id].size / 2, 2)) {
-      players[id].imageSrc = "images/selectedShip.png";
+      players[id].imageSrc = "selectedShip.png";
       players[id].image.src = players[id].imageSrc;
 
       if (down && !players[id].moving && !players[id].dead) {
         players[id].selected = true;
       }
     } else {
-      players[id].imageSrc = "images/friendlyShip.png";
+      players[id].imageSrc = "friendlyShip.png";
       players[id].image.src = players[id].imageSrc;
     }
   }

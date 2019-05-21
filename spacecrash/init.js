@@ -9,7 +9,7 @@ var mapHeight = 1500;
 var id = -1;
 var offsetX = 0;
 var offsetY = 0;
-fire.src = "images/fire.png";
+fire.src = "fire.png";
 
 // Canvas Variables
 var $canvas = document.querySelector('canvas');
@@ -25,5 +25,15 @@ var players = {};
 
 // Create obstacles in the map
 var o = []; // TODO: Add stuff into this list
+
+var deaths = [
+  new Audio('death1.ogg'),
+  new Audio('death2.ogg'),
+  new Audio('death3.ogg')
+];
+
+var music = new Audio('background.ogg');
+music.loop = true;
+var pshh = new Audio('psssh.ogg');
 
 var you;
