@@ -1,3 +1,8 @@
+socket.on('obstacles', (data) => {
+  data.forEach(function(j) {
+    o.push(new Obstacle(j.x, j.y, j.size));
+  });
+})
 socket.on('gameData', (data) => {
   // Add code to update gameData for all spaceships
   if (data.id != id) {
@@ -14,7 +19,8 @@ socket.on('playerConnect', (playerIds) => {
         players[id] = true; // Set it as true
         uniqueId = true; // Get outta the loop
 
-        you = new Ship(Math.floor(Math.random() * mapWidth), Math.floor(Math.random() * mapHeight), id);
+        you = new Ship(Math.floor(Math.random() * (mapWidth - mapWidth / 10) + mapWidth / 20),
+                        Math.floor(Math.random() * (mapHeight - mapHeight / 10) + mapHeight / 20), id);
       }
     }
 

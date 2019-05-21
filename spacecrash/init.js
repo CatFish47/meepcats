@@ -4,9 +4,11 @@ var mouseY = 0;
 var down = false;
 var gone = false;
 var fire = new Image();
-var mapWidth = 1200; //2000
-var mapHeight = 700; //1500
+var mapWidth = 2000;
+var mapHeight = 1500;
 var id = -1;
+var offsetX = 0;
+var offsetY = 0;
 fire.src = "images/fire.png";
 
 // Canvas Variables

@@ -6,7 +6,7 @@ document.addEventListener("mousedown", function(evt) {
 });
 document.addEventListener("mouseup", function(evt) {
   if (players[id].selected == true) {
-    players[id].speed = dist({x: players[id].x, y: players[id].y}, {x: mouseX, y: mouseY}) / 20;
+    players[id].speed = dist({x: players[id].x - offsetX, y: players[id].y - offsetY}, {x: mouseX, y: mouseY}) / 20;
   }
   down = false;
   players[id].selected = false;
@@ -30,7 +30,7 @@ document.addEventListener("mousemove", function(evt) {
   }
 
   if (!players[id].selected) {
-    if (Math.pow(mouseX - players[id].x, 2) + Math.pow(mouseY - players[id].y, 2)
+    if (Math.pow(mouseX - $canvas.width / 2, 2) + Math.pow(mouseY - $canvas.height / 2, 2)
     < Math.pow(players[id].size / 2, 2)) {
       players[id].imageSrc = "images/selectedShip.png";
       players[id].image.src = players[id].imageSrc;
@@ -43,7 +43,7 @@ document.addEventListener("mousemove", function(evt) {
       players[id].image.src = players[id].imageSrc;
     }
   } else {
-    if (Math.pow(mouseX - players[id].x, 2) + Math.pow(mouseY - players[id].y, 2)
+    if (Math.pow(mouseX - $canvas.width / 2, 2) + Math.pow(mouseY - $canvas.height / 2, 2)
     < Math.pow(players[id].size / 2, 2)) {
       players[id].imageSrc = "images/selectedShip.png";
       players[id].image.src = players[id].imageSrc;

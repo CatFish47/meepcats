@@ -33,12 +33,30 @@ var port =  process.env.PORT
 function addSockets() {
 
 	var players = {}; // Players in the game based on Id
+	var o = []; // Common obstacles for everyone!!!! So exciting
+	var numOfObstacles = 12;
+	var mapWidth = 2000; // These should change accordingly with the actual game
+	var mapHeight = 1500; // Should I need to change these values
+	var obsSize = 250;
+	var minSize = 50;
+
+	// Create code over here so that whenever the game initializes at first,
+	// It is going to generate obstacles that are going to used for the next like 50 games woohoo
+	for (var i = 0; i < numOfObstacles; i++) {
+		var obs = {x: 0, y: 0, size: 0};
+		obs.x = Math.random() * mapWidth;
+		obs.y = Math.random() * mapHeight;
+		obs.size = Math.random() * (obsSize - minSize) + minSize;
+
+		o.push(obs);
+	}
 
 	io.on('connection', (socket) => {
 
 		var id;
 
 		io.emit('playerConnect', players);
+		io.emit('obstacles', o);
 
 		socket.on('returnId', (data) => {
 			id = data.id;
@@ -94,11 +112,6 @@ function startServer() {
 
 		res.sendFile(filePath);
 	})
-
-	// app.post('/spacecrash', (req, res, next) => {
-	// 	console.log(req.body);
-	// 	res.send('OK');
-	// })
 
   app.get('/init.js', (req, res, next) => {
 		var filePath = path.join(__dirname, './spacecrash/init.js')
