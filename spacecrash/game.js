@@ -28,7 +28,7 @@ function update() {
   for (var i in players) {
     if (players[i]) {
       if (players[i].id != players[id].id) { // Check for collisions with only these ships
-        if (players[id].speed > players[i].speed) {
+        if (players[id].speed > players[i].speed && !players[i].dead) {
           shipCollide(players[id], players[i]);
         } else if (players[i].speed > players[id].speed) {
           shipCollide(players[i], players[id]);
