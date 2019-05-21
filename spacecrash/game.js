@@ -290,9 +290,9 @@ function shipCollide(ship1, ship2) {
       && iX < Math.max(fVertices[f[0]].x, fVertices[f[1]].x)
       && Math.min(eVertices[e[0]].x, eVertices[e[1]].x) < iX
       && iX < Math.max(eVertices[e[0]].x, eVertices[e[1]].x)) {
-        ship2.dead = true;
+        if (players[id] == ship1 && !ship2.dead) { score++; }
 
-        if (players[id] == ship1) { score += 0.5; }
+        ship2.dead = true;
 
         deaths[Math.floor(Math.random() * deaths.length)].play();
       }
