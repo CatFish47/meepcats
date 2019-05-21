@@ -1,7 +1,9 @@
 socket.on('obstacles', (data) => {
-  data.forEach(function(j) {
-    o.push(new Obstacle(j.x, j.y, j.size));
-  });
+  if (o.length == 0) {
+    data.forEach(function(j) {
+      o.push(new Obstacle(j.x, j.y, j.size));
+    });
+  }
 })
 socket.on('gameData', (data) => {
   // Add code to update gameData for all spaceships
