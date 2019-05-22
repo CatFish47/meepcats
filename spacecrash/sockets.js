@@ -13,7 +13,7 @@ socket.on('gameData', (data) => {
 });
 socket.on('playerConnect', (playerIds) => {
   if (id == -1) {
-    var uniqueId = false;
+    let uniqueId = false;
 
     while (uniqueId == false) {
       id = Math.floor(Math.random() * 100); // Id is a rand num between 0-99
@@ -26,7 +26,7 @@ socket.on('playerConnect', (playerIds) => {
       }
     }
 
-    var data = {id: id, ship: you};
+    let data = {id: id, ship: you};
 
     players[id] = you;
     socket.emit('returnId', data);

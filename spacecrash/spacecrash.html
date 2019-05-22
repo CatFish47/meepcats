@@ -4,8 +4,29 @@
         <title>Space Crash</title>
         <link href = "spacecrash.css" rel = "stylesheet">
         <style>
-            body, canvas {
+            body {
                 overflow:hidden;
+                margin:0;
+                padding:0;
+                text-align: center;
+            }
+
+            #canvas-container {
+                display: inline-block;
+            }
+
+            #space-crash {
+                position: absolute;
+                overflow:hidden;
+                left: 0;
+                margin:0;
+                padding:0;
+            }
+
+            #fx {
+                position: absolute;
+                overflow:hidden;
+                left: 0;
                 margin:0;
                 padding:0;
             }
@@ -14,17 +35,19 @@
         <link rel="icon" href="ship.png">
     </head>
     <body>
-      <div id="canvas-container">
-        <canvas id='space-crash'></canvas>
+      <div class="row">
+          <div class="col-md-2 col-md-offset-5" id="canvas-container"></div>
+          <canvas id='space-crash'></canvas>
+          <canvas id='fx'></canvas>
       </div>
 
-      <p id = "side"></p>
-      <p id = "playerList"></p>
+        <script src="//code.jquery.com/jquery-3.1.0.min.js"></script>
         <script src="/js/socket.io.js"></script>
         <script type="text/javascript" src="classes.js"></script>
         <script type="text/javascript" src="init.js"></script>
         <script type="text/javascript" src="sockets.js"></script>
         <script type="text/javascript" src="eventlisteners.js"></script>
+        <script type="text/javascript" src="explosion.js"></script>
         <script type="text/javascript" src="game.js"></script>
     </body>
 </html>

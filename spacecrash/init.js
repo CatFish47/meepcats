@@ -4,18 +4,23 @@ var mouseY = 0;
 var down = false;
 var gone = false;
 var fire = new Image();
-var mapWidth = 2000;
-var mapHeight = 1500;
+const mapWidth = 2000;
+const mapHeight = 1500;
 var id = -1;
 var offsetX = 0;
 var offsetY = 0;
+
 fire.src = "fire.png";
 
 // Canvas Variables
-var $canvas = document.querySelector('canvas');
+var $canvas = document.getElementById('space-crash');
 var context = $canvas.getContext("2d");
 $canvas.width = 1200;
 $canvas.height = 700;
+
+var screenWidth = window.innerWidth / 2 - $canvas.width / 2;
+
+$canvas.style.left = screenWidth + "px";
 
 // Socket Variables
 var socket = io();
@@ -26,15 +31,14 @@ var players = {};
 // Create obstacles in the map
 var o = []; // TODO: Add stuff into this list
 
-var deaths = [
-  new Audio('death1.ogg'),
-  new Audio('death2.ogg'),
-  new Audio('death3.ogg')
-];
+const deaths = [
+  'death1.ogg', 'death2.ogg', 'death3.ogg'
+]
 
-var music = new Audio('background.ogg');
+const music = new Audio('background.ogg');
 music.loop = true;
-var pshh = new Audio('psssh.ogg');
+music.load();
+const pshh = new Audio('psssh.ogg');
 
 var score = 0;
 
