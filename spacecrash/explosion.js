@@ -1,5 +1,5 @@
 const colors = [ '#ffc000', '#ff3b3b', '#ff8400' ];
-const bubbles = 25;
+const bubbles = 50;
 
 const explode = (x, y, shipId) => {
     let particles = [];
@@ -50,7 +50,8 @@ const render = (particles, ctx, width, height, x, y, shipId) => {
         ctx.beginPath();
         ctx.globalAlpha = p.opacity;
         ctx.fillStyle = p.color;
-        ctx.arc(p.x + xDis, p.y + yDis, p.radius, 0, 2 * Math.PI, false);
+        //ctx.arc(p.x + xDis, p.y + yDis, p.radius, 0, 2 * Math.PI, false);
+        ctx.fillRect(p.x + xDis, p.y + yDis, p.radius * 2, p.radius * 2);
         ctx.fill();
     });
 

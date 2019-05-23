@@ -1,10 +1,20 @@
+function playMusic() {
+  var x = music.play();
+
+  if (x != undefined) {
+    setTimeout(function() {
+      playMusic()
+    }, 500)
+  }
+}
+
 function init() {
   clearInterval(interval);
 
   drawShips();
   drawObstacles();
 
-  music.play();
+  playMusic();
 
   console.log("Game start");
   window.requestAnimationFrame(animate);
@@ -208,6 +218,7 @@ function wallCollide(ship) {
       || fVertices[i].y < 0 || fVertices[i].y > mapHeight)) {
         ship.dead = true;
 
+        explode(ship.x - offsetX, ship.y - offsetY, ship.id);
         let noise = new Audio(deaths[Math.floor(Math.random() * deaths.length)]);
         noise.play();
 
