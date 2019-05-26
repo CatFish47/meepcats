@@ -113,38 +113,75 @@ function startServer() {
 		res.sendFile(filePath);
 	})
 
-  app.get('/init.js', (req, res, next) => {
+  app.get('/spacecrash/init.js', (req, res, next) => {
 		var filePath = path.join(__dirname, './spacecrash/init.js')
 		res.sendFile(filePath);
 	});
 
-	app.get('/sockets.js', (req, res, next) => {
+	app.get('/spacecrash/sockets.js', (req, res, next) => {
 		var filePath = path.join(__dirname, './spacecrash/sockets.js')
 		res.sendFile(filePath);
 	});
 
-	app.get('/classes.js', (req, res, next) => {
+	app.get('/spacecrash/classes.js', (req, res, next) => {
 		var filePath = path.join(__dirname, './spacecrash/classes.js')
 		res.sendFile(filePath);
 	});
 
-	app.get('/game.js', (req, res, next) => {
+	app.get('/spacecrash/game.js', (req, res, next) => {
 		var filePath = path.join(__dirname, './spacecrash/game.js')
 		res.sendFile(filePath);
 	});
 
-	app.get('/eventlisteners.js', (req, res, next) => {
+	app.get('/spacecrash/eventlisteners.js', (req, res, next) => {
 		var filePath = path.join(__dirname, './spacecrash/eventlisteners.js')
 		res.sendFile(filePath);
 	});
 
-	app.get('/explosion.js', (req, res, next) => {
+	app.get('/spacecrash/explosion.js', (req, res, next) => {
 		var filePath = path.join(__dirname, './spacecrash/explosion.js')
 		res.sendFile(filePath);
 	});
 
-	app.get('/spacecrash.css', (req, res, next) => {
+	app.get('/spacecrash/spacecrash.css', (req, res, next) => {
 		var filePath = path.join(__dirname, './spacecrash/spacecrash.css')
+		res.sendFile(filePath);
+	})
+
+	// NOTE: Catan stuff here
+
+	app.get('/catan', (req, res, next) => {
+		var filePath = path.join(__dirname, './catan/catan.html')
+		res.sendFile(filePath);
+	})
+
+	app.get('/catan/catan.css', (req, res, next) => {
+		var filePath = path.join(__dirname, './catan/catan.css')
+		res.sendFile(filePath);
+	})
+
+	app.get('/catan/game.js', (req, res, next) => {
+		var filePath = path.join(__dirname, './catan/game.js')
+		res.sendFile(filePath);
+	})
+
+	app.get('/catan/classes.js', (req, res, next) => {
+		var filePath = path.join(__dirname, './catan/classes.js')
+		res.sendFile(filePath);
+	})
+
+	app.get('/catan/init.js', (req, res, next) => {
+		var filePath = path.join(__dirname, './catan/init.js')
+		res.sendFile(filePath);
+	})
+
+	app.get('/catan/eventlisteners.js', (req, res, next) => {
+		var filePath = path.join(__dirname, './catan/eventlisteners.js')
+		res.sendFile(filePath);
+	})
+
+	app.get('/catan/sockets.js', (req, res, next) => {
+		var filePath = path.join(__dirname, './catan/sockets.js')
 		res.sendFile(filePath);
 	})
 
