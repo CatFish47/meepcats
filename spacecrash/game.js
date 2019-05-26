@@ -218,9 +218,9 @@ function wallCollide(ship) {
       || fVertices[i].y < 0 || fVertices[i].y > mapHeight)) {
         ship.dead = true;
 
-        explode(ship.x - offsetX, ship.y - offsetY, ship.id);
         let noise = new Audio(deaths[Math.floor(Math.random() * deaths.length)]);
         noise.play();
+        explode(ship.x - offsetX, ship.y - offsetY, ship.id);
 
         ship.speed = 0;
     }
@@ -295,9 +295,9 @@ function shipCollide(ship1, ship2) {
 
         ship2.dead = true;
 
-        explode(ship2.x - offsetX, ship2.y - offsetY, ship2.id);
         let noise = new Audio(deaths[Math.floor(Math.random() * deaths.length)]);
         noise.play();
+        explode(ship2.x - offsetX, ship2.y - offsetY, ship2.id);
       }
     }
   }
@@ -323,9 +323,9 @@ function obstacleCollide(ship, obstacle) {
     Math.pow(obstacle.size / 2, 2)
     && !ship.dead) {
       ship.dead = true;
-      explode(ship.x - offsetX, ship.y - offsetY, ship.id);
       let noise = new Audio(deaths[Math.floor(Math.random() * deaths.length)]);
       noise.play();
+      explode(ship.x - offsetX, ship.y - offsetY, ship.id);
       ship.speed = 0;
     } else {
       // Implement Circle-Edge collsions later with the following link:
