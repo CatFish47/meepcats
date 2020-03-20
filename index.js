@@ -15,7 +15,7 @@ var Io = require('socket.io');
 
 var passport = require('passport');
 
-var dbAddress = process.env.MONGODB_URI || 'mongodb://127.0.0.1/spacecrash';
+var dbAddress = process.env.MONGODB_URI || 'mongodb://127.0.0.1';
 
 /* Creates an express application */
 var app = express();
@@ -28,56 +28,9 @@ var io = Io(server);
 /* Defines what port to use to listen to web requests */
 var port =  process.env.PORT
 						? parseInt(process.env.PORT):
-						1592;
+						4821;
 
 function addSockets() {
-
-	var players = {}; // Players in the game based on Id
-	var o = []; // Common obstacles for everyone!!!! So exciting
-	var numOfObstacles = 15;
-	var mapWidth = 2000; // These should change accordingly with the actual game
-	var mapHeight = 1500; // Should I need to change these values
-	var obsSize = 250;
-	var minSize = 50;
-
-	// Create code over here so that whenever the game initializes at first,
-	// It is going to generate obstacles that are going to used for the next like 50 games woohoo
-	for (var i = 0; i < numOfObstacles; i++) {
-		var obs = {x: 0, y: 0, size: 0};
-		obs.x = Math.random() * mapWidth;
-		obs.y = Math.random() * mapHeight;
-		obs.size = Math.random() * (obsSize - minSize) + minSize;
-
-		o.push(obs);
-	}
-
-	io.on('connection', (socket) => {
-
-		var id;
-
-		io.emit('playerConnect', players);
-		io.emit('obstacles', o);
-
-		socket.on('returnId', (data) => {
-			id = data.id;
-			players[id] = true;
-			console.log(players);
-
-			io.emit('updatePlayers', data);
-		})
-
-		socket.on('dataUpdate', (data) => {
-			io.emit('gameData', data);
-		});
-
-		socket.on('disconnect', (data) => {
-
-			players[id] = false;
-			io.emit('removePlayer', id);
-
-		});
-
-	});
 
 }
 
@@ -99,89 +52,29 @@ function startServer() {
 		res.send('OK');
 	})
 
+	app.get('/init.js', (req, res, next) => {
+		var filePath = path.join(__dirname, './init.js')
+		res.sendFile(filePath);
+	});
+
+	app.get('/classes.js', (req, res, next) => {
+		var filePath = path.join(__dirname, './classes.js')
+		res.sendFile(filePath);
+	});
+
+	app.get('/game.js', (req, res, next) => {
+		var filePath = path.join(__dirname, './game.js')
+		res.sendFile(filePath);
+	});
+
+	app.get('/eventlisteners.js', (req, res, next) => {
+		var filePath = path.join(__dirname, './eventlisteners.js')
+		res.sendFile(filePath);
+	});
+
 	app.get('/login', (req, res, next) => {
 		var filePath = path.join(__dirname, './login.html');
 
-		res.sendFile(filePath);
-	})
-
-	// NOTE: Spacecrash Stuff Here
-
-  app.get('/spacecrash', (req, res, next) => {
-		var filePath = path.join(__dirname, './spacecrash/spacecrash.html');
-
-		res.sendFile(filePath);
-	})
-
-  app.get('/spacecrash/init.js', (req, res, next) => {
-		var filePath = path.join(__dirname, './spacecrash/init.js')
-		res.sendFile(filePath);
-	});
-
-	app.get('/spacecrash/sockets.js', (req, res, next) => {
-		var filePath = path.join(__dirname, './spacecrash/sockets.js')
-		res.sendFile(filePath);
-	});
-
-	app.get('/spacecrash/classes.js', (req, res, next) => {
-		var filePath = path.join(__dirname, './spacecrash/classes.js')
-		res.sendFile(filePath);
-	});
-
-	app.get('/spacecrash/game.js', (req, res, next) => {
-		var filePath = path.join(__dirname, './spacecrash/game.js')
-		res.sendFile(filePath);
-	});
-
-	app.get('/spacecrash/eventlisteners.js', (req, res, next) => {
-		var filePath = path.join(__dirname, './spacecrash/eventlisteners.js')
-		res.sendFile(filePath);
-	});
-
-	app.get('/spacecrash/explosion.js', (req, res, next) => {
-		var filePath = path.join(__dirname, './spacecrash/explosion.js')
-		res.sendFile(filePath);
-	});
-
-	app.get('/spacecrash/spacecrash.css', (req, res, next) => {
-		var filePath = path.join(__dirname, './spacecrash/spacecrash.css')
-		res.sendFile(filePath);
-	})
-
-	// NOTE: Catan stuff here
-
-	app.get('/catan', (req, res, next) => {
-		var filePath = path.join(__dirname, './catan/catan.html')
-		res.sendFile(filePath);
-	})
-
-	app.get('/catan/catan.css', (req, res, next) => {
-		var filePath = path.join(__dirname, './catan/catan.css')
-		res.sendFile(filePath);
-	})
-
-	app.get('/catan/game.js', (req, res, next) => {
-		var filePath = path.join(__dirname, './catan/game.js')
-		res.sendFile(filePath);
-	})
-
-	app.get('/catan/classes.js', (req, res, next) => {
-		var filePath = path.join(__dirname, './catan/classes.js')
-		res.sendFile(filePath);
-	})
-
-	app.get('/catan/init.js', (req, res, next) => {
-		var filePath = path.join(__dirname, './catan/init.js')
-		res.sendFile(filePath);
-	})
-
-	app.get('/catan/eventlisteners.js', (req, res, next) => {
-		var filePath = path.join(__dirname, './catan/eventlisteners.js')
-		res.sendFile(filePath);
-	})
-
-	app.get('/catan/sockets.js', (req, res, next) => {
-		var filePath = path.join(__dirname, './catan/sockets.js')
 		res.sendFile(filePath);
 	})
 

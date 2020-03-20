@@ -1,9 +1,37 @@
+<!DOCTYPE html>
 <html>
-<head>
-  <title>Home</title>
-</head>
-<body>
-  <h1>Meep Cats</h1>
-  <a href = "/spacecrash">Space Crash</a>
-</body>
+    <head>
+        <title>Environment Cleanup</title>
+        <style>
+            body {
+              overflow:hidden;
+              margin:0;
+              padding:0;
+              text-align: center;
+            }
+
+            canvas {
+              display: inline;
+            }
+
+            #game {
+              position: absolute;
+              overflow:hidden;
+              left: 0;
+              margin:0;
+              padding:0;
+            }
+        </style>
+
+        <link rel="icon" href="merp.png">
+    </head>
+    <body>
+        <canvas id='game'></canvas>
+
+        <script src="/js/socket.io.js"></script>
+        <script type="text/javascript" src="classes.js"></script>
+        <script type="text/javascript" src="init.js"></script>
+        <script type="text/javascript" src="eventlisteners.js"></script>
+        <script type="text/javascript" src="game.js"></script>
+    </body>
 </html>
