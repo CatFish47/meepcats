@@ -11,8 +11,6 @@ var path = require('path');
 
 var mongoose = require('mongoose');
 
-var Io = require('socket.io');
-
 var passport = require('passport');
 
 var dbAddress = process.env.MONGODB_URI || 'mongodb://127.0.0.1';
@@ -22,8 +20,6 @@ var app = express();
 
 /* Creates the web server */
 var server = http.createServer(app);
-
-var io = Io(server);
 
 /* Defines what port to use to listen to web requests */
 var port =  process.env.PORT
